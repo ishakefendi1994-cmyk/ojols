@@ -39,3 +39,13 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# test/debug scripts (may contain API keys)
+test_*.js
+apply_fix.js
+check_*.js
+
+# sensitive credentials
+firebase-admin-key.json
+*-admin-key.json
+*-service-account*.json
