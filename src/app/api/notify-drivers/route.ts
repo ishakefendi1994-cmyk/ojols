@@ -56,10 +56,10 @@ export async function POST(request: Request) {
 
         const minBalance = service?.min_driver_balance || 0;
 
-        // 3. Get Online Drivers with FCM Tokens and Wallet Palance
+        // 3. Get Online Drivers with FCM Tokens
         const { data: drivers, error: driverError } = await supabaseAdmin
             .from('profiles')
-            .select('id, fcm_token, wallet_balance')
+            .select('id, fcm_token')
             .eq('role', 'DRIVER')
             .eq('is_online', true)
             .not('fcm_token', 'is', null);
@@ -75,16 +75,26 @@ export async function POST(request: Request) {
         const { data: activeOrders, error: activeOrdersError } = await supabaseAdmin
             .from('orders')
             .select('driver_id')
-            .in('status', ['ACCEPTED', 'PICKING_UP', 'DELIVERING'])
+            .in('status', ['ACCEPTED', 'ON_THE_WAY_TO_PICKUP', 'ARRIVED_AT_PICKUP', 'ON_THE_WAY_TO_DROP'])
             .not('driver_id', 'is', null);
 
         if (activeOrdersError) throw activeOrdersError;
 
         const busyDriverIds = new Set(activeOrders.map(o => o.driver_id));
 
+        // 4.5 Get Wallets for these drivers
+        const driverIds = drivers.map(d => d.id);
+        const { data: wallets, error: walletError } = await supabaseAdmin
+            .from('wallets')
+            .select('user_id, balance')
+            .in('user_id', driverIds);
+
+        const walletMap = new Map(wallets?.map(w => [w.user_id, w.balance]) || []);
+
         // 5. Filter drivers based on constraints
         const availableDrivers = drivers.filter(driver => {
-            const hasEnoughBalance = (driver.wallet_balance || 0) >= minBalance;
+            const balance = walletMap.get(driver.id) || 0;
+            const hasEnoughBalance = balance >= minBalance;
             const isNotBusy = !busyDriverIds.has(driver.id);
             return hasEnoughBalance && isNotBusy;
         });

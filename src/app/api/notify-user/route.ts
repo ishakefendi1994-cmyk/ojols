@@ -28,8 +28,12 @@ export async function POST(request: Request) {
         const order = body.record || body;
         const oldStatus = body.old_record?.status;
 
-        if (!order.id || !order.customer_id || !order.status) {
-            return NextResponse.json({ error: "Missing required fields" }, { status: 400 });
+        const customerId = order.customer_id || body.user_id || body.receiverId;
+        const orderId = order.id || body.orderId || body.order_id;
+        const status = order.status || body.status;
+
+        if (!customerId || (!status && (!body.title || !body.body))) {
+            return NextResponse.json({ error: "Missing required fields (customerId/user_id and status/title-body)" }, { status: 400 });
         }
 
         // Only send if status actually changed
@@ -43,7 +47,7 @@ export async function POST(request: Request) {
         const { data: profile, error: profileError } = await supabaseAdmin
             .from('profiles')
             .select('fcm_token')
-            .eq('id', order.customer_id)
+            .eq('id', customerId)
             .single();
 
         if (profileError || !profile?.fcm_token) {
@@ -91,9 +95,9 @@ export async function POST(request: Request) {
                 body: messageBody,
             },
             data: {
-                order_id: order.id || "",
+                order_id: orderId || "",
                 type: type,
-                status: order.status || "",
+                status: status || "",
             },
             token: profile.fcm_token,
             android: {
