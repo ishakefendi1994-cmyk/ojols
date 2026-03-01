@@ -138,9 +138,7 @@ export async function POST(request: Request) {
             data: {
                 order_id: order.id,
                 type: "NEW_ORDER",
-            },
-            android_channel_id: 'high_importance_channel',
-            android_sound: 'ojek_notif',
+            }
         };
 
         const response = await fetch('https://api.onesignal.com/notifications', {

@@ -111,9 +111,7 @@ export async function POST(request: Request) {
                 chat_id: body.chat_id || "",
                 receiver_name: body.receiver_name || "",
                 receiver_id: body.receiver_id || ""
-            },
-            android_channel_id: type === 'CHAT_MESSAGE' ? 'chat_notifications' : 'order_status', // make sure these match Android channel IDs if pre-created
-            android_sound: 'ojek_notif',
+            }
         };
 
         const response = await fetch('https://api.onesignal.com/notifications', {
