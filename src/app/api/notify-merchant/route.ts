@@ -52,7 +52,6 @@ export async function POST(request: Request) {
                 order_id: order.id,
                 type: "NEW_ORDER_MERCHANT",
             },
-            android_channel_id: "order_channel" // Optional: for custom sound/importance
         };
 
         const response = await fetch('https://api.onesignal.com/notifications', {
