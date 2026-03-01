@@ -22,7 +22,8 @@ import {
     Newspaper,
     Heart,
     Car,
-    Key
+    Key,
+    Banknote
 } from 'lucide-react';
 
 export default function DashboardLayout({
@@ -78,6 +79,7 @@ export default function DashboardLayout({
         { name: 'Pantau Order', href: '/dashboard/orders', icon: Map },
         { name: 'Dompet & Transaksi', href: '/dashboard/wallets', icon: Wallet },
         { name: 'Persetujuan Top-up', href: '/dashboard/topups', icon: ClipboardCheck },
+        { name: 'Pengajuan Withdraw', href: '/dashboard/withdrawals', icon: Banknote },
         { name: 'Master Layanan', href: '/dashboard/services', icon: Settings },
         { name: 'Kategori Toko', href: '/dashboard/categories', icon: Tags },
         { name: 'Master Menu Makanan', href: '/dashboard/products', icon: Store },
