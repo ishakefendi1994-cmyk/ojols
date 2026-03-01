@@ -104,6 +104,7 @@ export async function POST(request: Request) {
             include_player_ids: [profile.onesignal_id],
             headings: { en: title },
             contents: { en: messageBody },
+            priority: 10,
             data: {
                 order_id: orderId || "",
                 type: type,

@@ -135,6 +135,7 @@ export async function POST(request: Request) {
             include_player_ids: tokens, // Array of driver onesignal_ids
             headings: { en: "ADA PESANAN BARU!" },
             contents: { en: `Cepat ambil! Pesanan dari ${order.pickup_address} menuju ${order.dropoff_address}` },
+            priority: 10,
             data: {
                 order_id: order.id,
                 type: "NEW_ORDER",
