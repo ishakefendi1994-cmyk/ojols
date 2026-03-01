@@ -34,8 +34,8 @@ export async function POST(request: Request) {
         }
 
         // 2. Prepare Notification
-        const appId = process.env.ONESIGNAL_APP_ID; // Using same app ID as user app
-        const restApiKey = process.env.ONESIGNAL_REST_API_KEY;
+        const appId = process.env.ONESIGNAL_MERCHANT_APP_ID;
+        const restApiKey = process.env.ONESIGNAL_MERCHANT_REST_API_KEY;
 
         if (!appId || !restApiKey) {
             console.error("DEBUG: OneSignal APP ID or REST API Key is missing");
