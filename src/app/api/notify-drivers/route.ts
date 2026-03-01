@@ -56,13 +56,13 @@ export async function POST(request: Request) {
 
         const minBalance = service?.min_driver_balance || 0;
 
-        // 3. Get Online Drivers with FCM Tokens
+        // 3. Get Online Drivers with OneSignal IDs
         const { data: drivers, error: driverError } = await supabaseAdmin
             .from('profiles')
-            .select('id, fcm_token')
+            .select('id, onesignal_id')
             .eq('role', 'DRIVER')
             .eq('is_online', true)
-            .not('fcm_token', 'is', null);
+            .not('onesignal_id', 'is', null);
 
         if (driverError) throw driverError;
 
@@ -96,44 +96,77 @@ export async function POST(request: Request) {
             const balance = walletMap.get(driver.id) || 0;
             const hasEnoughBalance = balance >= minBalance;
             const isNotBusy = !busyDriverIds.has(driver.id);
+
+            // IF TARGETED: Only allow the specific driver
+            if (order.driver_id) {
+                return driver.id === order.driver_id;
+            }
+
+            // IF BROADCAST: Filter by constraints
             return hasEnoughBalance && isNotBusy;
         });
 
         if (availableDrivers.length === 0) {
-            console.log(`No available drivers for order ${orderId} (Filtered by balance/active order)`);
-            return NextResponse.json({ success: true, message: "No available drivers met constraints" });
+            console.log(`No available drivers for order ${orderId} (Filtered by balance/active order). Total Online: ${drivers.length}`);
+            return NextResponse.json({
+                success: true,
+                message: "No available drivers met constraints",
+                details: {
+                    onlineCount: drivers.length,
+                    minBalanceRequired: minBalance,
+                    busyDriverCount: busyDriverIds.size
+                }
+            });
         }
 
-        const tokens = availableDrivers.map(d => d.fcm_token).filter(t => t !== null) as string[];
+        const tokens = availableDrivers.map(d => d.onesignal_id).filter(t => t !== null) as string[];
 
-        // 6. Send FCM Notification
-        const message = {
-            notification: {
-                title: "ADA PESANAN BARU!",
-                body: `Cepat ambil! Pesanan dari ${order.pickup_address} menuju ${order.dropoff_address}`,
-            },
+        // 6. Send OneSignal Notification
+        const appId = process.env.ONESIGNAL_DRIVER_APP_ID;
+        const restApiKey = process.env.ONESIGNAL_DRIVER_REST_API_KEY;
+
+        if (!appId || !restApiKey) {
+            console.error("DEBUG: OneSignal Driver APP ID or REST API Key is missing in .env");
+            return NextResponse.json({ error: "OneSignal Driver Configuration Missing" }, { status: 500 });
+        }
+
+        const oneSignalPayload = {
+            app_id: appId,
+            include_player_ids: tokens, // Array of driver onesignal_ids
+            headings: { en: "ADA PESANAN BARU!" },
+            contents: { en: `Cepat ambil! Pesanan dari ${order.pickup_address} menuju ${order.dropoff_address}` },
             data: {
                 order_id: order.id,
                 type: "NEW_ORDER",
             },
-            tokens: tokens,
-            android: {
-                priority: 'high' as any,
-                notification: {
-                    sound: 'ojek_notif',
-                    channelId: 'high_importance_channel',
-                },
-            },
+            android_channel_id: 'high_importance_channel',
+            android_sound: 'ojek_notif',
         };
 
-        const response = await admin.messaging().sendEachForMulticast(message);
+        const response = await fetch('https://api.onesignal.com/notifications', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                Accept: 'application/json',
+                Authorization: `Basic ${restApiKey}`,
+            },
+            body: JSON.stringify(oneSignalPayload),
+        });
 
-        console.log(`Notification sent for order ${orderId}. Success: ${response.successCount}, Failure: ${response.failureCount}`);
+        if (!response.ok) {
+            const errBody = await response.text();
+            console.error("OneSignal Drivers Error:", errBody);
+            return NextResponse.json({ error: "OneSignal Request Failed", details: errBody }, { status: response.status });
+        }
+
+        const responseData = await response.json();
+
+        console.log(`Notification sent for order ${orderId}. OneSignal Recipient Count: ${responseData.recipients}`);
 
         return NextResponse.json({
             success: true,
-            notifiedCount: response.successCount,
-            failureCount: response.failureCount
+            notifiedCount: responseData.recipients || 0,
+            onesignal: responseData
         });
 
     } catch (err: any) {

@@ -43,15 +43,15 @@ export async function POST(request: Request) {
 
         const supabaseAdmin = getSupabaseAdmin();
 
-        // 1. Get User FCM Token
+        // 1. Get User OneSignal ID
         const { data: profile, error: profileError } = await supabaseAdmin
             .from('profiles')
-            .select('fcm_token')
+            .select('onesignal_id')
             .eq('id', customerId)
             .single();
 
-        if (profileError || !profile?.fcm_token) {
-            return NextResponse.json({ error: "User token not found" }, { status: 404 });
+        if (profileError || !profile?.onesignal_id) {
+            return NextResponse.json({ error: "User onesignal_id not found" }, { status: 404 });
         }
 
         // 2. Map status or direct payload to message
@@ -88,30 +88,51 @@ export async function POST(request: Request) {
             }
         }
 
-        // 3. Send FCM
-        const fcmMessage = {
-            notification: {
-                title: title,
-                body: messageBody,
-            },
+        // 3. Send OneSignal Notification
+        const isDriverReceiver = body.receiver_role === 'DRIVER';
+
+        const appId = isDriverReceiver ? process.env.ONESIGNAL_DRIVER_APP_ID : process.env.ONESIGNAL_APP_ID;
+        const restApiKey = isDriverReceiver ? process.env.ONESIGNAL_DRIVER_REST_API_KEY : process.env.ONESIGNAL_REST_API_KEY;
+
+        if (!appId || !restApiKey) {
+            console.error("DEBUG: OneSignal APP ID or REST API Key is missing in .env");
+            return NextResponse.json({ error: "OneSignal Configuration Missing" }, { status: 500 });
+        }
+
+        const oneSignalPayload = {
+            app_id: appId,
+            include_player_ids: [profile.onesignal_id],
+            headings: { en: title },
+            contents: { en: messageBody },
             data: {
                 order_id: orderId || "",
                 type: type,
                 status: status || "",
+                chat_id: body.chat_id || "",
+                receiver_name: body.receiver_name || "",
+                receiver_id: body.receiver_id || ""
             },
-            token: profile.fcm_token,
-            android: {
-                priority: 'high' as any,
-                notification: {
-                    sound: 'ojek_notif',
-                    channelId: type === 'CHAT_MESSAGE' ? 'chat_notifications' : 'order_status',
-                },
-            },
+            android_channel_id: type === 'CHAT_MESSAGE' ? 'chat_notifications' : 'order_status', // make sure these match Android channel IDs if pre-created
+            android_sound: 'ojek_notif',
         };
 
-        await admin.messaging().send(fcmMessage as any);
+        const response = await fetch('https://api.onesignal.com/notifications', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                Accept: 'application/json',
+                Authorization: `Basic ${restApiKey}`,
+            },
+            body: JSON.stringify(oneSignalPayload),
+        });
 
-        return NextResponse.json({ success: true });
+        if (!response.ok) {
+            const errBody = await response.text();
+            console.error("OneSignal Error:", errBody);
+            return NextResponse.json({ error: "OneSignal Request Failed", details: errBody }, { status: response.status });
+        }
+
+        return NextResponse.json({ success: true, onesignal: await response.json() });
 
     } catch (err: any) {
         console.error("API Notify User Error:", err);

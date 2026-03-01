@@ -21,7 +21,8 @@ import {
     Image as ImageIcon,
     Newspaper,
     Heart,
-    Car
+    Car,
+    Key
 } from 'lucide-react';
 
 export default function DashboardLayout({
@@ -84,6 +85,7 @@ export default function DashboardLayout({
         { name: 'Promo Banners', href: '/dashboard/banners', icon: ImageIcon },
         { name: 'Promo & Berita', href: '/dashboard/news', icon: Newspaper },
         { name: 'Manajemen Donasi', href: '/dashboard/donations', icon: Heart },
+        { name: 'Manajemen Lisensi', href: '/dashboard/licensing', icon: Key },
     ];
 
     if (loading) {
