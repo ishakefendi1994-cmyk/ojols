@@ -38,6 +38,11 @@ BEGIN
         v_admin_fee     := COALESCE(NEW.admin_fee, 0);    -- 10% dari ongkir
         v_service_fee   := COALESCE(NEW.service_fee, 0);  -- biaya layanan app
 
+        -- Fallback: Jika ongkir 0 dan bukan merchant (ojek/mobil), hitung dari total_price
+        IF v_delivery_fee = 0 AND NOT v_has_merchant THEN
+            v_delivery_fee := NEW.total_price - v_service_fee;
+        END IF;
+
         -- Hitung pendapatan bersih driver (ongkir - fee platform)
         v_driver_earning := v_delivery_fee - v_admin_fee;
         IF v_driver_earning < 0 THEN v_driver_earning := 0; END IF;
