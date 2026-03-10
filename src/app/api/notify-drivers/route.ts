@@ -47,19 +47,21 @@ export async function POST(request: Request) {
             return NextResponse.json({ error: "Order not found" }, { status: 404 });
         }
 
-        // 2. Get Service Minimum Balance
+        // 2. Get Service Minimum Balance & Name
         const { data: service, error: serviceError } = await supabaseAdmin
             .from('services')
-            .select('min_driver_balance')
+            .select('min_driver_balance, name')
             .eq('id', order.service_id)
             .single();
 
         const minBalance = service?.min_driver_balance || 0;
+        const serviceName = (service?.name || '').toUpperCase();
+        const isCarService = serviceName.includes('MOBIL') || serviceName.includes('CAR');
 
         // 3. Get Online Drivers with OneSignal IDs
         const { data: drivers, error: driverError } = await supabaseAdmin
             .from('profiles')
-            .select('id, onesignal_id')
+            .select('id, onesignal_id, vehicle_type')
             .eq('role', 'DRIVER')
             .eq('is_online', true)
             .not('onesignal_id', 'is', null);
@@ -96,6 +98,8 @@ export async function POST(request: Request) {
             const balance = walletMap.get(driver.id) || 0;
             const hasEnoughBalance = balance >= minBalance;
             const isNotBusy = !busyDriverIds.has(driver.id);
+            const driverVehicleType = driver.vehicle_type ? String(driver.vehicle_type).toUpperCase() : 'MOTOR';
+            const matchesVehicleType = isCarService ? driverVehicleType === 'MOBIL' : driverVehicleType !== 'MOBIL';
 
             // IF TARGETED: Only allow the specific driver
             if (order.driver_id) {
@@ -103,7 +107,7 @@ export async function POST(request: Request) {
             }
 
             // IF BROADCAST: Filter by constraints
-            return hasEnoughBalance && isNotBusy;
+            return hasEnoughBalance && isNotBusy && matchesVehicleType;
         });
 
         if (availableDrivers.length === 0) {
