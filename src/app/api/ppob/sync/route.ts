@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { supabase } from '@/lib/supabase';
+import { createClient } from '@supabase/supabase-js';
 import crypto from 'crypto';
 
 export async function POST(req: Request) {
@@ -63,8 +64,13 @@ export async function POST(req: Request) {
 
         let processedCount = 0;
 
+        const supabaseAdmin = createClient(
+            process.env.NEXT_PUBLIC_SUPABASE_URL!,
+            process.env.SUPABASE_SERVICE_ROLE_KEY!
+        );
+
         // Preserve markup from existing products
-        const { data: existingProducts } = await supabase.from('ppob_products').select('product_code, markup');
+        const { data: existingProducts } = await supabaseAdmin.from('ppob_products').select('product_code, markup');
         const markupMap = new Map();
         if (existingProducts) {
             existingProducts.forEach((p: any) => markupMap.set(p.product_code, p.markup));
@@ -92,7 +98,7 @@ export async function POST(req: Request) {
         const batchSize = 100;
         for (let i = 0; i < upsertData.length; i += batchSize) {
             const batch = upsertData.slice(i, i + batchSize);
-            const { error: upsertError } = await supabase
+            const { error: upsertError } = await supabaseAdmin
                 .from('ppob_products')
                 .upsert(batch, { onConflict: 'product_code' });
 
