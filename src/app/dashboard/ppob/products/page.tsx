@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { supabase } from '@/lib/supabase';
-import { Search, Save, Power, PowerOff, RefreshCw } from 'lucide-react';
+import { Search, Save, Power, PowerOff, RefreshCw, Trash2 } from 'lucide-react';
 
 type Product = {
     id: string;
@@ -21,6 +21,7 @@ export default function PPOBProductsPage() {
     const [loading, setLoading] = useState(true);
     const [searchTerm, setSearchTerm] = useState('');
     const [syncing, setSyncing] = useState(false);
+    const [resetting, setResetting] = useState(false);
     const [editingMarkup, setEditingMarkup] = useState<string | null>(null);
     const [markupValue, setMarkupValue] = useState<string>('');
 
@@ -79,6 +80,37 @@ export default function PPOBProductsPage() {
         }
     };
 
+    const handleReset = async () => {
+        if (!confirm('PERINGATAN! Apakah Anda yakin ingin MENGHAPUS SEMUA DATA PRODUK PPOB? Data yang dihapus tidak bisa dikembalikan.')) return;
+
+        try {
+            setResetting(true);
+            const { data: { session } } = await supabase.auth.getSession();
+
+            if (!session) throw new Error('Not authenticated');
+
+            const res = await fetch('/api/ppob/reset', {
+                method: 'DELETE',
+                headers: {
+                    'Authorization': `Bearer ${session.access_token}`,
+                }
+            });
+
+            if (!res.ok) {
+                const error = await res.json();
+                throw new Error(error.error || 'Failed to reset');
+            }
+
+            alert('Semua data produk PPOB berhasil dihapus!');
+            fetchProducts();
+        } catch (error: any) {
+            console.error('Reset error:', error);
+            alert('Gagal menghapus data: ' + error.message);
+        } finally {
+            setResetting(false);
+        }
+    };
+
     const toggleStatus = async (id: string, currentStatus: boolean) => {
         try {
             const { error } = await supabase
@@ -123,23 +155,33 @@ export default function PPOBProductsPage() {
     };
 
     const filteredProducts = products.filter(p =>
-        p.product_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        p.product_code.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        p.brand.toLowerCase().includes(searchTerm.toLowerCase())
+        (p.product_name?.toLowerCase() || '').includes(searchTerm.toLowerCase()) ||
+        (p.product_code?.toLowerCase() || '').includes(searchTerm.toLowerCase()) ||
+        (p.brand?.toLowerCase() || '').includes(searchTerm.toLowerCase())
     );
 
     return (
         <div className="space-y-6">
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                 <h1 className="text-2xl font-bold text-slate-800">Manajemen Produk PPOB</h1>
-                <button
-                    onClick={handleSync}
-                    disabled={syncing}
-                    className="flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50"
-                >
-                    <RefreshCw className={`w-5 h-5 mr-2 ${syncing ? 'animate-spin' : ''}`} />
-                    {syncing ? 'Menyinkronkan...' : 'Sinkron Digiflazz'}
-                </button>
+                <div className="flex gap-2">
+                    <button
+                        onClick={handleReset}
+                        disabled={resetting || syncing}
+                        className="flex items-center px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 disabled:opacity-50"
+                    >
+                        <Trash2 className={`w-5 h-5 mr-2 ${resetting ? 'animate-pulse' : ''}`} />
+                        {resetting ? 'Menghapus...' : 'Reset Data'}
+                    </button>
+                    <button
+                        onClick={handleSync}
+                        disabled={syncing || resetting}
+                        className="flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50"
+                    >
+                        <RefreshCw className={`w-5 h-5 mr-2 ${syncing ? 'animate-spin' : ''}`} />
+                        {syncing ? 'Menyinkronkan...' : 'Sinkron Digiflazz'}
+                    </button>
+                </div>
             </div>
 
             <div className="bg-white p-4 rounded-xl shadow-sm border border-slate-200">
