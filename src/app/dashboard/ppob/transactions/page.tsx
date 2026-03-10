@@ -16,7 +16,7 @@ type Transaction = {
     created_at: string;
     user: {
         full_name: string;
-        phone: string;
+        phone_number: string;
     };
 };
 
@@ -37,7 +37,7 @@ export default function PPOBTransactionsPage() {
                 .from('ppob_transactions')
                 .select(`
                     *,
-                    user:users!user_id(full_name, phone)
+                    user:profiles!user_id(full_name, phone_number)
                 `)
                 .order('created_at', { ascending: false });
 
@@ -147,7 +147,7 @@ export default function PPOBTransactionsPage() {
                                         </td>
                                         <td className="px-6 py-4">
                                             <div className="font-medium text-slate-900">{t.user?.full_name || 'User Dihapus'}</div>
-                                            <div className="text-xs text-slate-500 mt-1">{t.user?.phone || '-'}</div>
+                                            <div className="text-xs text-slate-500 mt-1">{t.user?.phone_number || '-'}</div>
                                         </td>
                                         <td className="px-6 py-4">
                                             <div className="font-bold text-slate-900">{t.product_code}</div>
