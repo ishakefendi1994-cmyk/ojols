@@ -4,6 +4,7 @@ import { createClient } from '@supabase/supabase-js';
 import crypto from 'crypto';
 
 export async function POST(req: Request) {
+    // Trigger Vercel Deployment Update
     try {
         // Authenticate the request via Supabase headers
         const authHeader = req.headers.get('Authorization');
