@@ -40,10 +40,22 @@ export async function POST(req: Request) {
         const msg = digiflazzUser + digiflazzKey + "depo";
         const sign = crypto.createHash('md5').update(msg).digest('hex');
 
-        // Fetch products from Digiflazz
-        const digiflazzResponse = await fetch('https://api.digiflazz.com/v1/price-list', {
+        // Fetch products from Digiflazz (via Proxy if configured)
+        const proxyUrl = process.env.DIGIFLAZZ_PROXY_URL;
+        const proxyKey = process.env.DIGIFLAZZ_PROXY_KEY;
+
+        const fetchUrl = proxyUrl
+            ? `${proxyUrl}?endpoint=price-list`
+            : 'https://api.digiflazz.com/v1/price-list';
+
+        const headers: any = { 'Content-Type': 'application/json' };
+        if (proxyUrl && proxyKey) {
+            headers['X-Proxy-Key'] = proxyKey;
+        }
+
+        const digiflazzResponse = await fetch(fetchUrl, {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: headers,
             body: JSON.stringify({
                 cmd: "prepaid",
                 username: digiflazzUser,

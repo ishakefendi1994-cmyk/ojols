@@ -63,10 +63,22 @@ export async function POST(req: Request) {
         const msg = digiflazzUser + digiflazzKey + refId;
         const sign = crypto.createHash('md5').update(msg).digest('hex');
 
+        const proxyUrl = process.env.DIGIFLAZZ_PROXY_URL;
+        const proxyKey = process.env.DIGIFLAZZ_PROXY_KEY;
+
+        const fetchUrl = proxyUrl
+            ? `${proxyUrl}?endpoint=transaction`
+            : 'https://api.digiflazz.com/v1/transaction';
+
+        const headers: any = { 'Content-Type': 'application/json' };
+        if (proxyUrl && proxyKey) {
+            headers['X-Proxy-Key'] = proxyKey;
+        }
+
         try {
-            const digiResponse = await fetch('https://api.digiflazz.com/v1/transaction', {
+            const digiResponse = await fetch(fetchUrl, {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+                headers: headers,
                 body: JSON.stringify({
                     username: digiflazzUser,
                     buyer_sku_code: product_code,
