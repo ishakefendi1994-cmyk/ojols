@@ -98,6 +98,7 @@ export async function POST(req: Request) {
                 product_name: p.product_name,
                 category: p.category.toLowerCase(),
                 brand: p.brand.toLowerCase(),
+                provider: p.brand.toLowerCase(), // Required column
                 type: p.type,
                 seller_name: p.seller_name,
                 provider_price: p.price,
