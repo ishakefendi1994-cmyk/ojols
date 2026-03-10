@@ -42,10 +42,11 @@ export async function GET() {
         const { data: feeTransactions, error: feeError } = await supabaseAdmin
             .from('transactions')
             .select('amount')
-            .eq('type', 'FEE_DEDUCTION'); // Using correct ENUM value
+            .in('type', ['FEE_DEDUCTION', 'SUBSCRIPTION']);
 
         if (feeError) throw feeError;
-        const totalRevenue = feeTransactions.reduce((acc, curr) => acc + Number(curr.amount), 0);
+        // The amounts are negative because they deduct from user wallets, so we use Math.abs
+        const totalRevenue = feeTransactions.reduce((acc, curr) => acc + Math.abs(Number(curr.amount)), 0);
 
         // 5. Get recent 5 transactions/orders for the activity feed
         const { data: recentOrders, error: recentOrdError } = await supabaseAdmin

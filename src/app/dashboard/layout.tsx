@@ -23,7 +23,9 @@ import {
     Heart,
     Car,
     Key,
-    Banknote
+    Banknote,
+    ChevronDown,
+    ChevronRight
 } from 'lucide-react';
 
 export default function DashboardLayout({
@@ -33,6 +35,7 @@ export default function DashboardLayout({
 }) {
     const [loading, setLoading] = useState(true);
     const [sidebarOpen, setSidebarOpen] = useState(true);
+    const [openMenus, setOpenMenus] = useState<string[]>(['Utama', 'Transaksi', 'Master Data']);
     const router = useRouter();
     const pathname = usePathname();
 
@@ -72,23 +75,53 @@ export default function DashboardLayout({
         router.push('/login');
     };
 
-    const navItems = [
-        { name: 'Dashboard', href: '/dashboard', icon: LayoutDashboard },
-        { name: 'Pelanggan & Mitra', href: '/dashboard/users', icon: Users },
-        { name: 'Verifikasi Driver', href: '/dashboard/drivers', icon: Car },
-        { name: 'Pantau Order', href: '/dashboard/orders', icon: Map },
-        { name: 'Dompet & Transaksi', href: '/dashboard/wallets', icon: Wallet },
-        { name: 'Persetujuan Top-up', href: '/dashboard/topups', icon: ClipboardCheck },
-        { name: 'Pengajuan Withdraw', href: '/dashboard/withdrawals', icon: Banknote },
-        { name: 'Master Layanan', href: '/dashboard/services', icon: Settings },
-        { name: 'Kategori Toko', href: '/dashboard/categories', icon: Tags },
-        { name: 'Master Menu Makanan', href: '/dashboard/products', icon: Store },
-        { name: 'Varian Barang (Kirim)', href: '/dashboard/package-types', icon: Package },
-        { name: 'Promo Banners', href: '/dashboard/banners', icon: ImageIcon },
-        { name: 'Promo & Berita', href: '/dashboard/news', icon: Newspaper },
-        { name: 'Manajemen Donasi', href: '/dashboard/donations', icon: Heart },
-        { name: 'Manajemen Lisensi', href: '/dashboard/licensing', icon: Key },
+    const menuGroups = [
+        {
+            title: 'Utama',
+            items: [
+                { name: 'Dashboard', href: '/dashboard', icon: LayoutDashboard },
+            ]
+        },
+        {
+            title: 'Pengguna',
+            items: [
+                { name: 'Pelanggan & Mitra', href: '/dashboard/users', icon: Users },
+                { name: 'Verifikasi Driver', href: '/dashboard/drivers', icon: Car },
+            ]
+        },
+        {
+            title: 'Transaksi',
+            items: [
+                { name: 'Pantau Order', href: '/dashboard/orders', icon: Map },
+                { name: 'Dompet & Transaksi', href: '/dashboard/wallets', icon: Wallet },
+                { name: 'Persetujuan Top-up', href: '/dashboard/topups', icon: ClipboardCheck },
+                { name: 'Pengajuan Withdraw', href: '/dashboard/withdrawals', icon: Banknote },
+                { name: 'Langganan Driver', href: '/dashboard/subscriptions', icon: ClipboardCheck },
+                { name: 'Manajemen Donasi', href: '/dashboard/donations', icon: Heart },
+            ]
+        },
+        {
+            title: 'Master Data',
+            items: [
+                { name: 'Master Layanan', href: '/dashboard/services', icon: Settings },
+                { name: 'Kategori Toko', href: '/dashboard/categories', icon: Tags },
+                { name: 'Master Menu Makanan', href: '/dashboard/products', icon: Store },
+                { name: 'Varian Barang (Kirim)', href: '/dashboard/package-types', icon: Package },
+            ]
+        },
+        {
+            title: 'Promo & Pengaturan',
+            items: [
+                { name: 'Promo Banners', href: '/dashboard/banners', icon: ImageIcon },
+                { name: 'Promo & Berita', href: '/dashboard/news', icon: Newspaper },
+                { name: 'Manajemen Lisensi', href: '/dashboard/licensing', icon: Key },
+            ]
+        }
     ];
+
+    const toggleMenu = (title: string) => {
+        setOpenMenus(prev => prev.includes(title) ? prev.filter(t => t !== title) : [...prev, title]);
+    };
 
     if (loading) {
         return (
@@ -103,9 +136,9 @@ export default function DashboardLayout({
             {/* Sidebar */}
             <aside
                 className={`${sidebarOpen ? 'translate-x-0' : '-translate-x-full'
-                    } fixed inset-y-0 left-0 z-50 w-64 bg-slate-900 text-white transition-transform duration-300 ease-in-out lg:relative lg:translate-x-0`}
+                    } fixed inset-y-0 left-0 z-50 w-64 bg-slate-900 text-white transition-transform duration-300 ease-in-out lg:relative lg:translate-x-0 flex flex-col`}
             >
-                <div className="h-16 flex items-center justify-between px-6 bg-slate-950">
+                <div className="flex-none h-16 flex items-center justify-between px-6 bg-slate-950">
                     <span className="text-xl font-bold flex items-center">
                         <UserCheck className="w-6 h-6 mr-2 text-blue-400" />
                         SuperAdmin
@@ -118,28 +151,50 @@ export default function DashboardLayout({
                     </button>
                 </div>
 
-                <nav className="p-4 space-y-2 mt-4">
-                    {navItems.map((item) => {
-                        const isActive = pathname === item.href;
-                        const Icon = item.icon;
+                <nav className="flex-1 overflow-y-auto p-4 space-y-4 mt-2 pb-20">
+                    {menuGroups.map((group) => {
+                        const isOpen = openMenus.includes(group.title);
+                        const hasActiveChild = group.items.some(item => pathname === item.href);
 
                         return (
-                            <Link
-                                key={item.href}
-                                href={item.href}
-                                className={`flex items-center px-4 py-3 rounded-lg transition-colors ${isActive
-                                    ? 'bg-blue-600 text-white'
-                                    : 'text-slate-400 hover:bg-slate-800 hover:text-white'
-                                    }`}
-                            >
-                                <Icon className="w-5 h-5 mr-3" />
-                                <span className="font-medium text-sm">{item.name}</span>
-                            </Link>
+                            <div key={group.title} className="space-y-1">
+                                <button
+                                    onClick={() => toggleMenu(group.title)}
+                                    className={`w-full flex items-center justify-between px-3 py-2 text-sm font-semibold rounded-lg transition-colors ${hasActiveChild && !isOpen ? 'text-blue-400' : 'text-slate-400 hover:text-white'
+                                        }`}
+                                >
+                                    <span>{group.title}</span>
+                                    {isOpen ? <ChevronDown className="w-4 h-4" /> : <ChevronRight className="w-4 h-4" />}
+                                </button>
+
+                                {isOpen && (
+                                    <div className="space-y-1 pl-2">
+                                        {group.items.map((item) => {
+                                            const isActive = pathname === item.href;
+                                            const Icon = item.icon;
+
+                                            return (
+                                                <Link
+                                                    key={item.href}
+                                                    href={item.href}
+                                                    className={`flex items-center px-4 py-2.5 rounded-lg transition-colors ${isActive
+                                                        ? 'bg-blue-600 text-white shadow-sm'
+                                                        : 'text-slate-300 hover:bg-slate-800 hover:text-white'
+                                                        }`}
+                                                >
+                                                    <Icon className="w-4 h-4 mr-3 flex-shrink-0" />
+                                                    <span className="font-medium text-sm">{item.name}</span>
+                                                </Link>
+                                            );
+                                        })}
+                                    </div>
+                                )}
+                            </div>
                         );
                     })}
                 </nav>
 
-                <div className="absolute bottom-0 w-full p-4 border-t border-slate-800">
+                <div className="flex-none p-4 border-t border-slate-800">
                     <button
                         onClick={handleLogout}
                         className="flex items-center w-full px-4 py-3 text-red-400 hover:bg-red-500/10 rounded-lg transition-colors"

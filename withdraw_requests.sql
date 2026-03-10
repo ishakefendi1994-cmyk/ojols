@@ -1,3 +1,17 @@
+-- 0. Fix trx_type enum to include WITHDRAWAL and REFUND
+-- Run this individually if it errors in a transaction block
+DO $$ BEGIN
+    ALTER TYPE public.trx_type ADD VALUE 'WITHDRAWAL';
+EXCEPTION
+    WHEN duplicate_object THEN null;
+END $$;
+
+DO $$ BEGIN
+    ALTER TYPE public.trx_type ADD VALUE 'REFUND';
+EXCEPTION
+    WHEN duplicate_object THEN null;
+END $$;
+
 -- 1. Create Status Enum for Withdrawals
 DO $$ BEGIN
     CREATE TYPE public.withdraw_status AS ENUM ('PENDING', 'APPROVED', 'REJECTED');

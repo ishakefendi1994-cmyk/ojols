@@ -205,51 +205,70 @@ export default function WalletsPage() {
                         <Loader2 className="w-8 h-8 animate-spin text-emerald-600" />
                     </div>
                 ) : activeTab === 'wallets' ? (
-                    <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
-                        {filteredWallets.length === 0 ? (
-                            <div className="col-span-full py-12 text-center text-slate-500">
-                                Tidak ada data dompet ditemukan.
-                            </div>
-                        ) : (
-                            filteredWallets.map(wallet => (
-                                <div key={wallet.id} className="bg-white rounded-xl border border-slate-200 p-5 shadow-sm hover:shadow-md transition-shadow">
-                                    <div className="flex justify-between items-start mb-4">
-                                        <div className="flex items-center gap-3">
-                                            <div className="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center shrink-0">
-                                                {renderRoleIcon(wallet.user?.role || 'CUSTOMER')}
-                                            </div>
-                                            <div>
-                                                <h4 className="font-bold text-slate-800 line-clamp-1">{wallet.user?.full_name || 'Hamba Allah'}</h4>
-                                                <p className="text-xs text-slate-500">{wallet.user?.phone_number || 'Tidak ada no HP'}</p>
-                                            </div>
-                                        </div>
-                                        <span className="text-[10px] font-bold tracking-wider px-2 py-1 bg-slate-100 text-slate-600 rounded">
-                                            {wallet.user?.role || 'UNKNOWN'}
-                                        </span>
-                                    </div>
-                                    <div className="pt-4 border-t border-slate-100">
-                                        <p className="text-xs text-slate-500 mb-1">Total Saldo Dompet</p>
-                                        <p className={`text-2xl font-bold ${wallet.balance < 0 ? 'text-red-600' : 'text-slate-800'}`}>
-                                            Rp {Number(wallet.balance).toLocaleString('id-ID')}
-                                        </p>
-                                    </div>
-                                    <div className="mt-4 pt-4 border-t border-slate-100 grid grid-cols-2 gap-2">
-                                        <button
-                                            onClick={() => handleOpenModal(wallet, 'TOPUP')}
-                                            className="px-3 py-2 bg-emerald-50 hover:bg-emerald-100 text-emerald-700 text-sm font-semibold rounded-lg flex items-center justify-center transition-colors"
-                                        >
-                                            <ArrowDownRight className="w-4 h-4 mr-1" /> Top-Up
-                                        </button>
-                                        <button
-                                            onClick={() => handleOpenModal(wallet, 'WITHDRAW')}
-                                            className="px-3 py-2 bg-red-50 hover:bg-red-100 text-red-700 text-sm font-semibold rounded-lg flex items-center justify-center transition-colors"
-                                        >
-                                            <ArrowUpRight className="w-4 h-4 mr-1" /> Tarik
-                                        </button>
-                                    </div>
-                                </div>
-                            ))
-                        )}
+                    <div className="bg-white rounded-xl border border-slate-200 overflow-hidden shadow-sm">
+                        <table className="w-full text-left border-collapse">
+                            <thead>
+                                <tr className="bg-slate-50 border-b border-slate-200 text-sm">
+                                    <th className="px-6 py-4 font-semibold text-slate-600">Pengguna</th>
+                                    <th className="px-6 py-4 font-semibold text-slate-600">Peran (Role)</th>
+                                    <th className="px-6 py-4 font-semibold text-slate-600">Total Saldo</th>
+                                    <th className="px-6 py-4 font-semibold text-slate-600 text-right">Aksi Manual</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {filteredWallets.length === 0 ? (
+                                    <tr>
+                                        <td colSpan={4} className="px-6 py-12 text-center text-slate-400">
+                                            Tidak ada data dompet ditemukan.
+                                        </td>
+                                    </tr>
+                                ) : (
+                                    filteredWallets.map(wallet => (
+                                        <tr key={wallet.id} className="border-b border-slate-100 hover:bg-slate-50 transition-colors">
+                                            <td className="px-6 py-4">
+                                                <div className="flex items-center gap-3">
+                                                    <div className="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center shrink-0">
+                                                        {renderRoleIcon(wallet.user?.role || 'CUSTOMER')}
+                                                    </div>
+                                                    <div>
+                                                        <p className="font-bold text-slate-800 line-clamp-1">{wallet.user?.full_name || 'Hamba Allah'}</p>
+                                                        <p className="text-xs text-slate-500">{wallet.user?.phone_number || 'Tidak ada no HP'}</p>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td className="px-6 py-4">
+                                                <span className="text-xs font-bold tracking-wider px-2 py-1 bg-slate-100 text-slate-600 rounded">
+                                                    {wallet.user?.role || 'UNKNOWN'}
+                                                </span>
+                                            </td>
+                                            <td className="px-6 py-4">
+                                                <p className={`text-lg font-bold ${wallet.balance < 0 ? 'text-red-600' : 'text-slate-800'}`}>
+                                                    Rp {Number(wallet.balance).toLocaleString('id-ID')}
+                                                </p>
+                                            </td>
+                                            <td className="px-6 py-4 text-right">
+                                                <div className="flex items-center justify-end gap-2">
+                                                    <button
+                                                        onClick={() => handleOpenModal(wallet, 'TOPUP')}
+                                                        className="px-3 py-1.5 bg-emerald-50 hover:bg-emerald-100 text-emerald-700 text-sm font-semibold rounded-lg flex items-center transition-colors"
+                                                        title="Top-Up Saldo"
+                                                    >
+                                                        <ArrowDownRight className="w-4 h-4 mr-1" /> Top-Up
+                                                    </button>
+                                                    <button
+                                                        onClick={() => handleOpenModal(wallet, 'WITHDRAW')}
+                                                        className="px-3 py-1.5 bg-red-50 hover:bg-red-100 text-red-700 text-sm font-semibold rounded-lg flex items-center transition-colors"
+                                                        title="Tarik Saldo"
+                                                    >
+                                                        <ArrowUpRight className="w-4 h-4 mr-1" /> Tarik
+                                                    </button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    ))
+                                )}
+                            </tbody>
+                        </table>
                     </div>
                 ) : (
                     <div className="bg-white rounded-xl border border-slate-200 overflow-hidden shadow-sm">
