@@ -25,7 +25,8 @@ import {
     Key,
     Banknote,
     ChevronDown,
-    ChevronRight
+    ChevronRight,
+    Smartphone
 } from 'lucide-react';
 
 export default function DashboardLayout({
@@ -98,6 +99,13 @@ export default function DashboardLayout({
                 { name: 'Pengajuan Withdraw', href: '/dashboard/withdrawals', icon: Banknote },
                 { name: 'Langganan Driver', href: '/dashboard/subscriptions', icon: ClipboardCheck },
                 { name: 'Manajemen Donasi', href: '/dashboard/donations', icon: Heart },
+            ]
+        },
+        {
+            title: 'PPOB & Layanan Digital',
+            items: [
+                { name: 'Transaksi PPOB', href: '/dashboard/ppob/transactions', icon: Smartphone },
+                { name: 'Produk PPOB', href: '/dashboard/ppob/products', icon: Tags },
             ]
         },
         {
