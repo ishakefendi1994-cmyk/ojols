@@ -24,6 +24,9 @@ export default function PPOBProductsPage() {
     const [resetting, setResetting] = useState(false);
     const [editingMarkup, setEditingMarkup] = useState<string | null>(null);
     const [markupValue, setMarkupValue] = useState<string>('');
+    const [activeCategory, setActiveCategory] = useState<string>('ALL');
+    const [bulkMarkup, setBulkMarkup] = useState<string>('');
+    const [savingBulk, setSavingBulk] = useState(false);
 
     useEffect(() => {
         fetchProducts();
@@ -150,15 +153,60 @@ export default function PPOBProductsPage() {
         }
     };
 
+    const handleBulkSave = async () => {
+        const newMarkup = Number(bulkMarkup);
+        if (isNaN(newMarkup) || newMarkup < 0) {
+            alert('Markup harus berupa angka positif');
+            return;
+        }
+
+        if (!confirm(`Terapkan markup Rp ${formatRupiah(newMarkup)} untuk SEMUA produk di kategori ${activeCategory}?`)) return;
+
+        try {
+            setSavingBulk(true);
+            const { data: { session } } = await supabase.auth.getSession();
+            if (!session) throw new Error('Not authenticated');
+
+            const res = await fetch('/api/ppob/bulk-markup', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${session.access_token}`
+                },
+                body: JSON.stringify({
+                    category: activeCategory,
+                    markup: newMarkup
+                })
+            });
+
+            if (!res.ok) {
+                const error = await res.json();
+                throw new Error(error.error || 'Failed to bulk update');
+            }
+
+            alert('Markup massal berhasil diterapkan!');
+            setBulkMarkup('');
+            fetchProducts();
+        } catch (error: any) {
+            console.error('Bulk update error:', error);
+            alert('Gagal menerapkan markup: ' + error.message);
+        } finally {
+            setSavingBulk(false);
+        }
+    };
+
     const formatRupiah = (amount: number) => {
         return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(amount);
     };
 
-    const filteredProducts = products.filter(p =>
-        (p.product_name?.toLowerCase() || '').includes(searchTerm.toLowerCase()) ||
-        (p.product_code?.toLowerCase() || '').includes(searchTerm.toLowerCase()) ||
-        (p.brand?.toLowerCase() || '').includes(searchTerm.toLowerCase())
-    );
+    const filteredProducts = products.filter(p => {
+        const matchSearch = (p.product_name?.toLowerCase() || '').includes(searchTerm.toLowerCase()) ||
+            (p.product_code?.toLowerCase() || '').includes(searchTerm.toLowerCase()) ||
+            (p.brand?.toLowerCase() || '').includes(searchTerm.toLowerCase());
+        const matchCategory = activeCategory === 'ALL' || p.category.toLowerCase() === activeCategory.toLowerCase();
+
+        return matchSearch && matchCategory;
+    });
 
     return (
         <div className="space-y-6">
@@ -184,16 +232,49 @@ export default function PPOBProductsPage() {
                 </div>
             </div>
 
-            <div className="bg-white p-4 rounded-xl shadow-sm border border-slate-200">
-                <div className="relative">
-                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 w-5 h-5" />
-                    <input
-                        type="text"
-                        placeholder="Cari nama produk, provider, kode..."
-                        value={searchTerm}
-                        onChange={(e) => setSearchTerm(e.target.value)}
-                        className="w-full pl-10 pr-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none"
-                    />
+            <div className="bg-white p-4 rounded-xl shadow-sm border border-slate-200 space-y-4">
+                <div className="flex flex-wrap gap-2 mb-4 border-b border-slate-100 pb-4">
+                    {['ALL', 'Pulsa', 'Data', 'PLN', 'E-Money', 'Games', 'Voucher'].map(cat => (
+                        <button
+                            key={cat}
+                            onClick={() => setActiveCategory(cat)}
+                            className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${activeCategory === cat ? 'bg-blue-100 text-blue-700 border-blue-200' : 'bg-slate-50 text-slate-600 hover:bg-slate-100 border-slate-200'} border`}
+                        >
+                            {cat}
+                        </button>
+                    ))}
+                </div>
+
+                <div className="flex flex-col sm:flex-row gap-4 items-center justify-between">
+                    <div className="relative flex-1 w-full">
+                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 w-5 h-5" />
+                        <input
+                            type="text"
+                            placeholder="Cari nama produk, provider, kode..."
+                            value={searchTerm}
+                            onChange={(e) => setSearchTerm(e.target.value)}
+                            className="w-full pl-10 pr-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none"
+                        />
+                    </div>
+
+                    <div className="flex items-center gap-2 bg-slate-50 p-2 rounded-lg border border-slate-200 w-full sm:w-auto">
+                        <span className="text-sm text-slate-600 whitespace-nowrap hidden md:inline">Set Markup:</span>
+                        <input
+                            type="number"
+                            placeholder="Rp Markup"
+                            value={bulkMarkup}
+                            onChange={(e) => setBulkMarkup(e.target.value)}
+                            className="w-32 px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none text-sm"
+                        />
+                        <button
+                            onClick={handleBulkSave}
+                            disabled={savingBulk || !bulkMarkup}
+                            className="px-4 py-2 bg-green-600 text-white text-sm font-medium rounded-lg hover:bg-green-700 disabled:opacity-50 flex items-center whitespace-nowrap"
+                        >
+                            <Save className={`w-4 h-4 mr-2 ${savingBulk ? 'animate-pulse' : ''}`} />
+                            Terapkan ke {activeCategory}
+                        </button>
+                    </div>
                 </div>
             </div>
 

@@ -89,7 +89,7 @@ export async function POST(req: Request) {
             existingProducts.forEach((p: any) => markupMap.set(p.product_code, p.markup));
         }
 
-        const allowedCategories = ['Pulsa', 'Data', 'PLN'];
+        const allowedCategories = ['Pulsa', 'Data', 'PLN', 'E-Money', 'Games', 'Voucher', 'TV'];
         const filteredProducts = products.filter((p: any) => allowedCategories.includes(p.category));
 
         const upsertData = filteredProducts.map((p: any) => {
