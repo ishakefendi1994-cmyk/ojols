@@ -26,7 +26,9 @@ import {
     Banknote,
     ChevronDown,
     ChevronRight,
-    Smartphone
+    Smartphone,
+    MapPin,
+    Bus
 } from 'lucide-react';
 
 export default function DashboardLayout({
@@ -46,9 +48,11 @@ export default function DashboardLayout({
 
     async function checkUser() {
         try {
-            const { data: { session } } = await supabase.auth.getSession();
+            const { data: { session }, error: sessionError } = await supabase.auth.getSession();
 
-            if (!session) {
+            if (sessionError || !session) {
+                console.error("Session Error/Missing:", sessionError);
+                await supabase.auth.signOut();
                 router.push('/login');
                 return;
             }
@@ -67,6 +71,7 @@ export default function DashboardLayout({
             setLoading(false);
         } catch (error) {
             console.error('Error checking auth:', error);
+            await supabase.auth.signOut();
             router.push('/login');
         }
     }
@@ -109,12 +114,21 @@ export default function DashboardLayout({
             ]
         },
         {
-            title: 'Master Data',
+            title: 'Travel',
+            items: [
+                { name: 'Rute Travel', href: '/dashboard/travel/routes', icon: Bus },
+                { name: 'Armada Kendaraan', href: '/dashboard/travel/vehicles', icon: Car },
+                { name: 'Jadwal Keberangkatan', href: '/dashboard/travel/schedules', icon: Bus },
+                { name: 'Pemesanan & Tiket', href: '/dashboard/travel/bookings', icon: ClipboardCheck },
+            ]
+        },
+        {
             items: [
                 { name: 'Master Layanan', href: '/dashboard/services', icon: Settings },
                 { name: 'Kategori Toko', href: '/dashboard/categories', icon: Tags },
                 { name: 'Master Menu Makanan', href: '/dashboard/products', icon: Store },
                 { name: 'Varian Barang (Kirim)', href: '/dashboard/package-types', icon: Package },
+                { name: 'Manajemen Alamat', href: '/dashboard/addresses', icon: MapPin },
             ]
         },
         {
@@ -161,13 +175,13 @@ export default function DashboardLayout({
 
                 <nav className="flex-1 overflow-y-auto p-4 space-y-4 mt-2 pb-20">
                     {menuGroups.map((group) => {
-                        const isOpen = openMenus.includes(group.title);
+                        const isOpen = openMenus.includes(group.title as string);
                         const hasActiveChild = group.items.some(item => pathname === item.href);
 
                         return (
-                            <div key={group.title} className="space-y-1">
+                            <div key={group.title as string} className="space-y-1">
                                 <button
-                                    onClick={() => toggleMenu(group.title)}
+                                    onClick={() => toggleMenu(group.title as string)}
                                     className={`w-full flex items-center justify-between px-3 py-2 text-sm font-semibold rounded-lg transition-colors ${hasActiveChild && !isOpen ? 'text-blue-400' : 'text-slate-400 hover:text-white'
                                         }`}
                                 >

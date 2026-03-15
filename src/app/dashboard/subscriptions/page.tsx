@@ -190,7 +190,7 @@ export default function SubscriptionsPage() {
                                             <td className="px-6 py-4 font-medium text-slate-900">{plan.name}</td>
                                             <td className="px-6 py-4">
                                                 {plan.vehicle_type === 'MOTOR' ? '🏍️ Motor' :
-                                                    plan.vehicle_type === 'CAR' ? '🚗 Mobil' : '🌟 Semua'}
+                                                    plan.vehicle_type === 'MOBIL' ? '🚗 Mobil' : '🌟 Semua'}
                                             </td>
                                             <td className="px-6 py-4">{plan.duration_days} Hari</td>
                                             <td className="px-6 py-4 text-green-600 font-bold">{formatCurrency(plan.price)}</td>
@@ -335,7 +335,7 @@ export default function SubscriptionsPage() {
                                 >
                                     <option value="">Semua Kendaraan</option>
                                     <option value="MOTOR">Khusus Motor (Ojek)</option>
-                                    <option value="CAR">Khusus Mobil (Car)</option>
+                                    <option value="MOBIL">Khusus Mobil (Car)</option>
                                 </select>
                             </div>
                             <div>

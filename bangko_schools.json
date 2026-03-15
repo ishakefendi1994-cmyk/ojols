@@ -1,0 +1,142 @@
+[
+  {
+    "name": "SMK Negeri 1 Merangin",
+    "category": "Sekolah Menengah Kejuruan",
+    "address": "Jalan Talangkawo Bangko No.Kel, Bangko, Merangin",
+    "latitude": -2.0905813,
+    "longitude": 102.2867124
+  },
+  {
+    "name": "SMAN 1 Merangin",
+    "category": "Sekolah Menengah Atas",
+    "address": "Jl. Gn. Masurai No.105, Bangko, Merangin",
+    "latitude": -2.0810133,
+    "longitude": 102.2673772
+  },
+  {
+    "name": "SD Negeri 1 merangin",
+    "category": "Sekolah Dasar",
+    "address": "Jl. Raya Bangko-Kerinci, Bangko, Merangin",
+    "latitude": -2.0762478,
+    "longitude": 102.2711471
+  },
+  {
+    "name": "Madrasah Ibtidaiyah Negeri Bangko",
+    "category": "Sekolah Dasar",
+    "address": "JL. Bangko Tinggi No.332, RT.021, Bangko, Merangin",
+    "latitude": -2.077506,
+    "longitude": 102.272744
+  },
+  {
+    "name": "SD 211/6 Bangko 10",
+    "category": "Sekolah Dasar",
+    "address": "JL. Pangeran Diponegoro No.29, Bangko, Merangin",
+    "latitude": -2.077506,
+    "longitude": 102.272744
+  },
+  {
+    "name": "SMP Negeri 1 Merangin",
+    "category": "Sekolah Menengah Pertama",
+    "address": "Pasar Bangko, Bangko, Merangin",
+    "latitude": -2.0762582,
+    "longitude": 102.2686487
+  },
+  {
+    "name": "SDN 03/VI Bangko III",
+    "category": "Sekolah Dasar",
+    "address": "Jl. Kebun Sayur, Bangko, Merangin",
+    "latitude": -2.0758604,
+    "longitude": 102.2816652
+  },
+  {
+    "name": "SMAN 7 Merangin",
+    "category": "Sekolah Menengah Atas",
+    "address": "Bangko, Merangin",
+    "latitude": -2.0784193,
+    "longitude": 102.2825667
+  },
+  {
+    "name": "MIN 1 MERANGIN",
+    "category": "Madrasah Ibtidaiyah",
+    "address": "Jalan Bangko Tinggi, Bangko, Merangin",
+    "latitude": -2.065908,
+    "longitude": 102.2820797
+  },
+  {
+    "name": "SD Ungguh Muhammadiyah Merangin",
+    "category": "Sekolah Dasar",
+    "address": "Bungko, Jambi",
+    "latitude": -2.0688844,
+    "longitude": 102.272023
+  },
+  {
+    "name": "PKBM TERPADU ADS TUNAS MULIA",
+    "category": "Pusat Pendidikan",
+    "address": "Jl. Teuku Umar Lrg. Kampar No.RT 14, Bangko, Merangin",
+    "latitude": -2.0651911,
+    "longitude": 102.2697924
+  },
+  {
+    "name": "KB. Ar-Rosyidun Nafi'",
+    "category": "Kelompok Bermain",
+    "address": "Jl. Teuku Umar No.RT 10, Bangko, Merangin",
+    "latitude": -2.0675364,
+    "longitude": 102.2721342
+  },
+  {
+    "name": "Dinas Pendidikan Dan Kebudayaan Merangin",
+    "category": "Kantor Pemerintah",
+    "address": "JL. Jend. Sudirman, Bangko, Merangin",
+    "latitude": -2.0607128,
+    "longitude": 102.2740798
+  },
+  {
+    "name": "SDIT AL-MUNAWWAROH",
+    "category": "Sekolah Dasar",
+    "address": "Jl. Lintas Sumatera I Bangko No.3, Bangko, Merangin",
+    "latitude": -2.0672458,
+    "longitude": 102.29568
+  },
+  {
+    "name": "RA Insan Mulia",
+    "category": "Sekolah Dasar",
+    "address": "W7WG+QRW, Bangko, Merangin",
+    "latitude": -2.0530031,
+    "longitude": 102.2770785
+  },
+  {
+    "name": "SDIT INSAN MULIA",
+    "category": "Sekolah Dasar",
+    "address": "W7RR+X94, Bangko, Merangin",
+    "latitude": -2.0576011,
+    "longitude": 102.2909643
+  },
+  {
+    "name": "SMP Negeri 4 Merangin",
+    "category": "Sekolah Menengah Pertama",
+    "address": "W7PH+93R, Bangko, Merangin",
+    "latitude": -2.0640038,
+    "longitude": 102.2776254
+  },
+  {
+    "name": "SMA Abydos",
+    "category": "Sekolah Menengah Atas",
+    "address": "W744+P44, Bangko, Merangin",
+    "latitude": -2.0925324,
+    "longitude": 102.2556007
+  },
+  {
+    "name": "MTSN Bangko",
+    "category": "Madrasah Tsanawiyah",
+    "address": "W777+QCP, Bangko, Merangin",
+    "latitude": -2.08555,
+    "longitude": 102.2635899
+  },
+  {
+    "name": "SDN 282 Merangin",
+    "category": "Sekolah Dasar",
+    "address": "W7PJ+M23, Bangko, Merangin",
+    "latitude": -2.0633635,
+    "longitude": 102.2800501
+  }
+]

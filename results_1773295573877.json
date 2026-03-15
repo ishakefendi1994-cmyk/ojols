@@ -1,0 +1,44 @@
+[
+  {
+    "name": "RS Columbia Asia Medan",
+    "address": "RS Columbia Asia Medan\n4,8\nRumah Sakit ·  · Jl. Listrik No.2\nBuka 24 jam · (061) 4566368",
+    "latitude": 3.5857802,
+    "longitude": 98.6769453
+  },
+  {
+    "name": "Siloam Hospitals Dhirga Surya - Medan",
+    "address": "Siloam Hospitals Dhirga Surya - Medan\n4,7\nRumah Sakit ·  · Jl. Imam Bonjol No.6\nBuka 24 jam · 1 500 911",
+    "latitude": 3.5858922,
+    "longitude": 98.6735991
+  },
+  {
+    "name": "Rumah Sakit Universitas Royal Prima",
+    "address": "Rumah Sakit Universitas Royal Prima\n4,5\nRumah Sakit Umum ·  · Jl. Ayahanda No.68A\nBuka 24 jam · (061) 88813182",
+    "latitude": 3.5980547,
+    "longitude": 98.6542131
+  },
+  {
+    "name": "Rumah Sakit Murni Teguh Memorial",
+    "address": "Rumah Sakit Murni Teguh Memorial\n4,6\nRumah Sakit Swasta ·  · Jl. Jawa No.2\nBuka 24 jam · (061) 80501888",
+    "latitude": 3.5907419,
+    "longitude": 98.6815369
+  },
+  {
+    "name": "RS Advent Medan",
+    "address": "RS Advent Medan\n4,5\nRumah Sakit Umum ·  · Jl. Gatot Subroto No.Km 4\nBuka 24 jam · (061) 4574025",
+    "latitude": 3.5895533,
+    "longitude": 98.6498394
+  },
+  {
+    "name": "Rumah Sakit Umum Bina Kasih",
+    "address": "Rumah Sakit Umum Bina Kasih\n4,6\nRumah Sakit Umum ·  · Jl. Tahi Bonar Simatupang No.148\nBuka 24 jam · (061) 8475111",
+    "latitude": 3.5784964,
+    "longitude": 98.6129688
+  },
+  {
+    "name": "Rumah Sakit Santa Elisabeth",
+    "address": "Rumah Sakit Santa Elisabeth\n4,4\nRumah Sakit Umum ·  · Jl. H. Misbah No.7\nBuka 24 jam · (061) 4144737",
+    "latitude": 3.5753762,
+    "longitude": 98.6766563
+  }
+]
