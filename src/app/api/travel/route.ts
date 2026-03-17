@@ -7,7 +7,7 @@ export async function POST(request: Request) {
         const { action, table, data, id } = body;
         const supabaseAdmin = getSupabaseAdmin();
 
-        const validTables = ['travel_routes', 'travel_vehicles', 'travel_schedules', 'travel_bookings'];
+        const validTables = ['travel_routes', 'travel_vehicles', 'travel_schedules', 'travel_bookings', 'rental_routes', 'rental_route_drivers'];
         if (!validTables.includes(table)) {
             return NextResponse.json({ error: "Tabel tidak valid" }, { status: 400 });
         }

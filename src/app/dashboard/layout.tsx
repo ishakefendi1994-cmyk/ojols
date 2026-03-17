@@ -116,13 +116,20 @@ export default function DashboardLayout({
         {
             title: 'Travel',
             items: [
-                { name: 'Rute Travel', href: '/dashboard/travel/routes', icon: Bus },
                 { name: 'Armada Kendaraan', href: '/dashboard/travel/vehicles', icon: Car },
                 { name: 'Jadwal Keberangkatan', href: '/dashboard/travel/schedules', icon: Bus },
                 { name: 'Pemesanan & Tiket', href: '/dashboard/travel/bookings', icon: ClipboardCheck },
             ]
         },
         {
+            title: 'Sewa Driver',
+            items: [
+                { name: 'Manajemen Rute Utama', href: '/dashboard/rental/routes', icon: MapPin },
+                { name: 'Daftar Pesanan Sewa', href: '/dashboard/rental/bookings', icon: UserCheck },
+            ]
+        },
+        {
+            title: 'Master Data',
             items: [
                 { name: 'Master Layanan', href: '/dashboard/services', icon: Settings },
                 { name: 'Kategori Toko', href: '/dashboard/categories', icon: Tags },

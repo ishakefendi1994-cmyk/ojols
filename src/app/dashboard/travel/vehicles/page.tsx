@@ -11,6 +11,7 @@ interface TravelVehicle {
     seat_count: number;
     vehicle_type: string;
     is_active: boolean;
+    image_url: string | null;
     created_at: string;
 }
 
@@ -26,7 +27,8 @@ export default function TravelVehiclesPage() {
         plate_number: '',
         seat_count: 7,
         vehicle_type: 'minibus',
-        is_active: true
+        is_active: true,
+        image_url: ''
     });
     const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -60,7 +62,8 @@ export default function TravelVehiclesPage() {
                 plate_number: vehicle.plate_number,
                 seat_count: vehicle.seat_count,
                 vehicle_type: vehicle.vehicle_type,
-                is_active: vehicle.is_active
+                is_active: vehicle.is_active,
+                image_url: vehicle.image_url || ''
             });
         } else {
             setEditingId(null);
@@ -69,7 +72,8 @@ export default function TravelVehiclesPage() {
                 plate_number: '',
                 seat_count: 7,
                 vehicle_type: 'minibus',
-                is_active: true
+                is_active: true,
+                image_url: ''
             });
         }
         setIsModalOpen(true);
@@ -164,7 +168,7 @@ export default function TravelVehiclesPage() {
                 <table className="w-full text-left border-collapse">
                     <thead>
                         <tr className="bg-slate-50 border-b border-slate-200 text-sm">
-                            <th className="px-6 py-4 font-semibold text-slate-600">Nama Kendaraan</th>
+                            <th className="px-6 py-4 font-semibold text-slate-600">Armada</th>
                             <th className="px-6 py-4 font-semibold text-slate-600">No. Plat</th>
                             <th className="px-6 py-4 font-semibold text-slate-600 text-center">Kapasitas Kursi</th>
                             <th className="px-6 py-4 font-semibold text-slate-600 text-center">Status</th>
@@ -181,7 +185,16 @@ export default function TravelVehiclesPage() {
                         ) : (
                             vehicles.map((v) => (
                                 <tr key={v.id} className="border-b border-slate-100 hover:bg-slate-50/50 transition-colors">
-                                    <td className="px-6 py-4 font-medium">{v.name}</td>
+                                    <td className="px-6 py-4 flex items-center gap-3">
+                                        {v.image_url ? (
+                                            <img src={v.image_url} alt={v.name} className="w-10 h-10 rounded object-cover border border-slate-200" />
+                                        ) : (
+                                            <div className="w-10 h-10 rounded bg-slate-100 flex items-center justify-center border border-slate-200">
+                                                <Car className="w-5 h-5 text-slate-400" />
+                                            </div>
+                                        )}
+                                        <span className="font-medium">{v.name}</span>
+                                    </td>
                                     <td className="px-6 py-4 text-slate-600">{v.plate_number}</td>
                                     <td className="px-6 py-4 text-center">{v.seat_count} Kursi</td>
                                     <td className="px-6 py-4 text-center">
@@ -256,6 +269,18 @@ export default function TravelVehiclesPage() {
                                     className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm text-slate-800"
                                     placeholder="Contoh: BH 1234 XY"
                                 />
+                            </div>
+
+                            <div>
+                                <label className="block text-sm font-medium text-slate-700 mb-1">URL Gambar Kendaraan</label>
+                                <input
+                                    type="text"
+                                    value={formData.image_url}
+                                    onChange={(e) => setFormData({ ...formData, image_url: e.target.value })}
+                                    className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm text-slate-800"
+                                    placeholder="https://example.com/mobil.jpg"
+                                />
+                                <span className="text-xs text-slate-500 mt-1 block">Tempelkan link gambar mobil di sini</span>
                             </div>
 
                             <div className="grid grid-cols-2 gap-4">

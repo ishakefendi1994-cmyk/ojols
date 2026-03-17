@@ -32,10 +32,12 @@ interface TravelBooking {
     ticket_status: string;
     created_at: string;
     used_at: string | null;
+    app_fee: number | null;
+    driver_share: number | null;
     profiles: { full_name: string } | null;
     travel_schedules: {
         departure_time: string;
-        travel_routes: { origin: string; destination: string };
+        rental_routes: { origin: string; destination: string };
     };
 }
 
@@ -60,7 +62,9 @@ export default function TravelBookingsPage() {
                     profiles:user_id(full_name),
                     travel_schedules:schedule_id(
                         departure_time,
-                        travel_routes:route_id(origin, destination)
+                        admin_fee_percentage,
+                        driver_id,
+                        rental_routes:route_id(origin, destination)
                     )
                 `)
                 .order('created_at', { ascending: false });
@@ -72,6 +76,33 @@ export default function TravelBookingsPage() {
             alert('Gagal mengambil data pesanan.');
         } finally {
             setLoading(false);
+        }
+    };
+
+    const handleConfirmPayment = async (booking: any) => {
+        if (!confirm(`Konfirmasi pembayaran Rp ${booking.total_price.toLocaleString('id-ID')}? Komisi driver Rp ${booking.driver_share.toLocaleString('id-ID')} akan ditambahkan ke saldo driver.`)) return;
+
+        setIsValidating(true);
+        try {
+            const { data: rpcRes, error: rpcError } = await supabase.rpc('process_travel_payment', {
+                p_booking_id: booking.id,
+                p_is_admin_confirm: true
+            });
+
+            if (rpcError) throw rpcError;
+
+            if (rpcRes && rpcRes.success === false) {
+                alert(`Gagal konfirmasi: ${rpcRes.message}`);
+                return;
+            }
+
+            alert('Pembayaran BERHASIL dikonfirmasi!');
+            fetchBookings();
+        } catch (error: any) {
+            console.error('Error confirming payment:', error);
+            alert(`Gagal konfirmasi: ${error.message}`);
+        } finally {
+            setIsValidating(false);
         }
     };
 
@@ -212,8 +243,9 @@ export default function TravelBookingsPage() {
                                 <th className="px-6 py-4 font-semibold text-slate-600">Penumpang</th>
                                 <th className="px-6 py-4 font-semibold text-slate-600">Jadwal Travel</th>
                                 <th className="px-6 py-4 font-semibold text-slate-600">Metode & Bayar</th>
+                                <th className="px-6 py-4 font-semibold text-slate-600">Rincian Fee</th>
                                 <th className="px-6 py-4 font-semibold text-slate-600 text-center">Tiket</th>
-                                <th className="px-6 py-4 font-semibold text-slate-600 text-right">Kode</th>
+                                <th className="px-6 py-4 font-semibold text-slate-600 text-right">Aksi</th>
                             </tr>
                         </thead>
                         <tbody className="text-slate-800">
@@ -240,7 +272,7 @@ export default function TravelBookingsPage() {
                                         <td className="px-6 py-4 text-sm">
                                             <div className="flex items-center gap-1 font-medium">
                                                 <MapPin className="w-3 h-3 text-red-400" />
-                                                {b.travel_schedules.travel_routes.origin} → {b.travel_schedules.travel_routes.destination}
+                                                {b.travel_schedules.rental_routes?.origin} → {b.travel_schedules.rental_routes?.destination}
                                             </div>
                                             <div className="text-xs text-slate-500 mt-1 flex items-center gap-1">
                                                 <Clock className="w-3 h-3" />
@@ -256,11 +288,22 @@ export default function TravelBookingsPage() {
                                             </div>
                                             <div className="mt-1">
                                                 {b.payment_status === 'paid' ? (
-                                                    <span className="text-[10px] font-bold text-green-600 uppercase">Lunas</span>
+                                                    <span className="text-[10px] font-bold text-green-600 uppercase flex items-center gap-1">
+                                                        <CheckCircle className="w-2.5 h-2.5" /> Lunas
+                                                    </span>
                                                 ) : (
-                                                    <span className="text-[10px] font-bold text-orange-500 uppercase">Pending</span>
+                                                    <button 
+                                                        onClick={() => handleConfirmPayment(b)}
+                                                        className="text-[10px] font-bold text-white bg-orange-500 hover:bg-orange-600 px-2 py-0.5 rounded uppercase flex items-center gap-1"
+                                                    >
+                                                        Konfirmasi
+                                                    </button>
                                                 )}
                                             </div>
+                                        </td>
+                                        <td className="px-6 py-4 text-xs">
+                                            <div className="text-slate-500">App Fee: <span className="text-slate-700 font-medium">Rp {(b.app_fee || 0).toLocaleString('id-ID')}</span></div>
+                                            <div className="text-slate-500 mt-0.5">Driver: <span className="text-blue-600 font-bold">Rp {(b.driver_share || 0).toLocaleString('id-ID')}</span></div>
                                         </td>
                                         <td className="px-6 py-4 text-center">
                                             <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold uppercase ${getStatusStyle(b.ticket_status)}`}>
@@ -273,14 +316,14 @@ export default function TravelBookingsPage() {
                                             )}
                                         </td>
                                         <td className="px-6 py-4 text-right">
-                                            <div className="text-[10px] font-mono text-slate-400 max-w-[100px] truncate ml-auto" title={b.qr_code}>
+                                            <div className="text-[9px] font-mono text-slate-400 max-w-[80px] truncate ml-auto" title={b.qr_code}>
                                                 {b.qr_code}
                                             </div>
                                             <button 
                                                 onClick={() => { setQrInput(b.qr_code); scrollTo({ top: 0, behavior: 'smooth' }); }}
-                                                className="text-[10px] text-blue-600 font-bold hover:underline mt-1"
+                                                className="text-[10px] text-blue-600 font-bold hover:underline mt-1 block w-full text-right"
                                             >
-                                                Input Manual
+                                                Validasi
                                             </button>
                                         </td>
                                     </tr>

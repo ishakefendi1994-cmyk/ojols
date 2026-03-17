@@ -11,6 +11,9 @@ interface DriverProfile {
     selfie_url: string | null;
     ktp_url: string | null;
     sim_url: string | null;
+    vehicle_front_url: string | null;
+    stnk_url: string | null;
+    tnkb_url: string | null;
     is_verified: boolean;
     verification_status: string;
     rejection_reason: string | null;
@@ -144,15 +147,22 @@ export default function DriversVerificationPage() {
                                     </span>
                                 </td>
                                 <td className="px-6 py-4">
-                                    <div className="flex gap-2">
-                                        {[{ label: 'Selfie', url: d.selfie_url }, { label: 'KTP', url: d.ktp_url }, { label: 'SIM', url: d.sim_url }].map(({ label, url }) => (
+                                    <div className="flex flex-wrap gap-2">
+                                        {[
+                                            { label: 'Selfie', url: d.selfie_url },
+                                            { label: 'KTP', url: d.ktp_url },
+                                            { label: 'SIM', url: d.sim_url },
+                                            { label: 'Kendaraan', url: d.vehicle_front_url },
+                                            { label: 'STNK', url: d.stnk_url },
+                                            { label: 'Plat Nomor', url: d.tnkb_url }
+                                        ].map(({ label, url }) => (
                                             url ? (
                                                 <button key={label} onClick={() => { setActivePhoto(url); setIsPhotoModalOpen(true); }}
-                                                    className="text-xs bg-blue-50 text-blue-700 border border-blue-200 px-2 py-1 rounded flex items-center gap-1 hover:bg-blue-100 transition-colors">
-                                                    <Eye className="w-3 h-3" /> {label}
+                                                    className="text-[10px] bg-blue-50 text-blue-700 border border-blue-200 px-2 py-1 rounded flex items-center gap-1 hover:bg-blue-100 transition-colors">
+                                                    <Eye className="w-2.5 h-2.5" /> {label}
                                                 </button>
                                             ) : (
-                                                <span key={label} className="text-xs bg-slate-100 text-slate-400 px-2 py-1 rounded">{label} ✗</span>
+                                                <span key={label} className="text-[10px] bg-slate-100 text-slate-400 px-1.5 py-1 rounded">{label} ✗</span>
                                             )
                                         ))}
                                     </div>

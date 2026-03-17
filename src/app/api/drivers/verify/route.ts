@@ -12,7 +12,7 @@ export async function GET(request: NextRequest) {
 
     const { data, error } = await supabase
         .from('profiles')
-        .select('id, full_name, phone_number, vehicle_type, selfie_url, ktp_url, sim_url, is_verified, verification_status, rejection_reason, created_at')
+        .select('id, full_name, phone_number, vehicle_type, selfie_url, ktp_url, sim_url, vehicle_front_url, stnk_url, tnkb_url, is_verified, verification_status, rejection_reason, created_at')
         .eq('role', 'DRIVER')
         .eq('verification_status', status)
         .order('created_at', { ascending: false });

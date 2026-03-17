@@ -11,11 +11,12 @@ interface TravelSchedule {
     driver_id: string | null;
     departure_time: string;
     price_per_seat: number;
+    admin_fee_percentage: number;
     status: string;
     notes: string | null;
     created_at: string;
-    travel_routes: { origin: string; destination: string };
     travel_vehicles: { name: string; plate_number: string };
+    rental_routes: { origin: string; destination: string };
     profiles: { full_name: string } | null;
 }
 
@@ -35,6 +36,7 @@ export default function TravelSchedulesPage() {
         driver_id: '',
         departure_time: '',
         price_per_seat: 0,
+        admin_fee_percentage: 10,
         status: 'open',
         notes: ''
     });
@@ -52,7 +54,7 @@ export default function TravelSchedulesPage() {
                 .from('travel_schedules')
                 .select(`
                     *,
-                    travel_routes(origin, destination),
+                    rental_routes(origin, destination),
                     travel_vehicles(name, plate_number),
                     profiles:driver_id(full_name)
                 `)
@@ -62,7 +64,7 @@ export default function TravelSchedulesPage() {
             setSchedules(schedData || []);
 
             // Fetch Routes for Dropdown
-            const { data: routeData } = await supabase.from('travel_routes').select('id, origin, destination').eq('is_active', true);
+            const { data: routeData } = await supabase.from('rental_routes').select('id, origin, destination').eq('is_active', true);
             setRoutes(routeData || []);
 
             // Fetch Vehicles for Dropdown
@@ -94,6 +96,7 @@ export default function TravelSchedulesPage() {
                 driver_id: schedule.driver_id || '',
                 departure_time: new Date(schedule.departure_time).toISOString().slice(0, 16),
                 price_per_seat: schedule.price_per_seat,
+                admin_fee_percentage: schedule.admin_fee_percentage || 10,
                 status: schedule.status,
                 notes: schedule.notes || ''
             });
@@ -105,6 +108,7 @@ export default function TravelSchedulesPage() {
                 driver_id: drivers[0]?.id || '',
                 departure_time: '',
                 price_per_seat: 0,
+                admin_fee_percentage: 10,
                 status: 'open',
                 notes: ''
             });
@@ -230,6 +234,7 @@ export default function TravelSchedulesPage() {
                             <th className="px-6 py-4 font-semibold text-slate-600">Armada</th>
                             <th className="px-6 py-4 font-semibold text-slate-600">Supir</th>
                             <th className="px-6 py-4 font-semibold text-slate-600 text-center">Harga</th>
+                            <th className="px-6 py-4 font-semibold text-slate-600 text-center">Fee Admin(%)</th>
                             <th className="px-6 py-4 font-semibold text-slate-600 text-center">Status</th>
                             <th className="px-6 py-4 font-semibold text-slate-600 text-right">Aksi</th>
                         </tr>
@@ -257,7 +262,7 @@ export default function TravelSchedulesPage() {
                                         </div>
                                         <div className="text-xs text-slate-500 mt-1 flex items-center gap-1">
                                             <MapPin className="w-3 h-3 text-red-400" />
-                                            {s.travel_routes.origin} → {s.travel_routes.destination}
+                                            {s.rental_routes?.origin} → {s.rental_routes?.destination}
                                         </div>
                                     </td>
                                     <td className="px-6 py-4">
@@ -272,6 +277,12 @@ export default function TravelSchedulesPage() {
                                     </td>
                                     <td className="px-6 py-4 text-center font-bold text-blue-600">
                                         Rp {s.price_per_seat.toLocaleString('id-ID')}
+                                    </td>
+                                    <td className="px-6 py-4 text-center font-medium text-slate-600">
+                                        {s.admin_fee_percentage}% 
+                                        <div className="text-[10px] text-slate-400 font-normal">
+                                            Rp {(s.price_per_seat * s.admin_fee_percentage / 100).toLocaleString('id-ID')}
+                                        </div>
                                     </td>
                                     <td className="px-6 py-4 text-center">
                                         {statusBadge(s.status)}
@@ -382,19 +393,33 @@ export default function TravelSchedulesPage() {
                                 </div>
                             </div>
 
-                            <div>
-                                <label className="block text-sm font-medium text-slate-700 mb-1">Status Jadwal</label>
-                                <select
-                                    value={formData.status}
-                                    onChange={(e) => setFormData({ ...formData, status: e.target.value })}
-                                    className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm text-slate-800"
-                                >
-                                    <option value="open">OPEN (Bisa Dipesan)</option>
-                                    <option value="full">FULL (Penuh)</option>
-                                    <option value="departed">DEPARTED (Berangkat)</option>
-                                    <option value="completed">COMPLETED (Selesai)</option>
-                                    <option value="cancelled">CANCELLED (Dibatalkan)</option>
-                                </select>
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                <div>
+                                    <label className="block text-sm font-medium text-slate-700 mb-1">Fee Admin (%)</label>
+                                    <input
+                                        type="number"
+                                        required
+                                        min="0"
+                                        max="100"
+                                        value={formData.admin_fee_percentage}
+                                        onChange={(e) => setFormData({ ...formData, admin_fee_percentage: Number(e.target.value) })}
+                                        className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm text-slate-800"
+                                    />
+                                </div>
+                                <div>
+                                    <label className="block text-sm font-medium text-slate-700 mb-1">Status Jadwal</label>
+                                    <select
+                                        value={formData.status}
+                                        onChange={(e) => setFormData({ ...formData, status: e.target.value })}
+                                        className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm text-slate-800"
+                                    >
+                                        <option value="open">OPEN (Bisa Dipesan)</option>
+                                        <option value="full">FULL (Penuh)</option>
+                                        <option value="departed">DEPARTED (Berangkat)</option>
+                                        <option value="completed">COMPLETED (Selesai)</option>
+                                        <option value="cancelled">CANCELLED (Dibatalkan)</option>
+                                    </select>
+                                </div>
                             </div>
 
                             <div>
