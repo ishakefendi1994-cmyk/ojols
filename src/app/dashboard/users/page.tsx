@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { supabase } from '@/lib/supabase';
 import { Edit, Trash2, CheckCircle, XCircle, Loader2, Shield, User as UserIcon, Car, Store, MapPin } from 'lucide-react';
 import MapPicker from '@/components/MapPicker';
 
@@ -10,6 +11,7 @@ interface UserProfile {
     phone_number: string | null;
     role: 'CUSTOMER' | 'DRIVER' | 'MERCHANT' | 'ADMIN';
     vehicle_plate_number: string | null;
+    vehicle_type: string | null;
     is_online: boolean;
     address: string | null;
     latitude: number | null;
@@ -29,6 +31,7 @@ interface CategoryType {
 export default function UsersPage() {
     const [users, setUsers] = useState<UserProfile[]>([]);
     const [categories, setCategories] = useState<CategoryType[]>([]);
+    const [vehicleTypes, setVehicleTypes] = useState<{type_code: string, display_name: string}[]>([]);
     const [loading, setLoading] = useState(true);
     const [filterRole, setFilterRole] = useState<string>('ALL');
 
@@ -42,6 +45,7 @@ export default function UsersPage() {
         phone_number: '',
         role: 'CUSTOMER',
         vehicle_plate_number: '',
+        vehicle_type: '',
         is_online: false,
         address: '',
         latitude: '',
@@ -57,7 +61,18 @@ export default function UsersPage() {
 
     useEffect(() => {
         fetchCategories();
+        fetchVehicleTypes();
     }, []);
+
+    const fetchVehicleTypes = async () => {
+        try {
+            const { data, error } = await supabase.from('vehicle_types').select('type_code, display_name');
+            if (error) throw error;
+            setVehicleTypes(data || []);
+        } catch (error) {
+            console.error('Error fetching vehicle types:', error);
+        }
+    };
 
     const fetchCategories = async () => {
         try {
@@ -97,6 +112,7 @@ export default function UsersPage() {
             phone_number: user.phone_number || '',
             role: user.role || 'CUSTOMER',
             vehicle_plate_number: user.vehicle_plate_number || '',
+            vehicle_type: user.vehicle_type || '',
             is_online: user.is_online || false,
             address: user.address || '',
             latitude: user.latitude?.toString() || '',
@@ -117,6 +133,7 @@ export default function UsersPage() {
             phone_number: '',
             role: 'CUSTOMER',
             vehicle_plate_number: '',
+            vehicle_type: '',
             is_online: false,
             address: '',
             latitude: '',
@@ -143,6 +160,7 @@ export default function UsersPage() {
                 ...formData,
                 phone_number: formData.phone_number.trim() === '' ? null : formData.phone_number,
                 vehicle_plate_number: formData.vehicle_plate_number.trim() === '' ? null : formData.vehicle_plate_number,
+                vehicle_type: formData.vehicle_type.trim() === '' ? null : formData.vehicle_type,
                 address: formData.address.trim() === '' ? null : formData.address,
                 latitude: formData.latitude === '' ? null : parseFloat(formData.latitude),
                 longitude: formData.longitude === '' ? null : parseFloat(formData.longitude),
@@ -307,7 +325,7 @@ export default function UsersPage() {
                                         </div>
                                         {user.role === 'DRIVER' && (
                                             <div className="text-xs text-blue-600 mt-1 font-medium bg-blue-50 inline-block px-2 py-0.5 rounded border border-blue-100">
-                                                Plat: {user.vehicle_plate_number || 'Belum diatur'}
+                                                Mobil/Motor: {user.vehicle_type || 'Biasa'} | Plat: {user.vehicle_plate_number || 'Belum diatur'}
                                             </div>
                                         )}
                                     </td>
@@ -434,6 +452,25 @@ export default function UsersPage() {
                                 {formData.role === 'DRIVER' && (
                                     <div className="bg-blue-50 p-4 rounded-lg space-y-3 border border-blue-100 mt-2">
                                         <p className="text-xs font-semibold text-blue-800 uppercase tracking-wider">Atribut Mitra Driver</p>
+
+                                        <div>
+                                            <label className="block text-sm font-medium text-slate-700 mb-1">Tipe Kendaraan</label>
+                                            <select
+                                                required={formData.role === 'DRIVER'}
+                                                value={formData.vehicle_type}
+                                                onChange={(e) => setFormData({ ...formData, vehicle_type: e.target.value })}
+                                                className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm bg-white"
+                                            >
+                                                <option value="" disabled>Pilih Tipe Kendaraan</option>
+                                                <option value="MOTOR">MOTOR (Default)</option>
+                                                <option value="MOBIL">MOBIL (Default)</option>
+                                                {vehicleTypes.map(vt => (
+                                                    <option key={vt.type_code} value={vt.type_code}>
+                                                        {vt.display_name} ({vt.type_code})
+                                                    </option>
+                                                ))}
+                                            </select>
+                                        </div>
 
                                         <div>
                                             <label className="block text-sm font-medium text-slate-700 mb-1">Nomor Plat Kendaraan</label>

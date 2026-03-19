@@ -132,6 +132,7 @@ export default function DashboardLayout({
             title: 'Master Data',
             items: [
                 { name: 'Master Layanan', href: '/dashboard/services', icon: Settings },
+                { name: 'Tipe Kendaraan', href: '/dashboard/vehicle-types', icon: Car },
                 { name: 'Kategori Toko', href: '/dashboard/categories', icon: Tags },
                 { name: 'Master Menu Makanan', href: '/dashboard/products', icon: Store },
                 { name: 'Varian Barang (Kirim)', href: '/dashboard/package-types', icon: Package },

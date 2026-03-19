@@ -33,7 +33,7 @@ export async function POST(request: Request) {
         const supabaseAdmin = getSupabaseAdmin();
 
         if (action === 'CREATE') {
-            const { email, password, full_name, phone_number, role, vehicle_plate_number, is_online, address, latitude, longitude, merchant_category, is_open_24h } = userData;
+            const { email, password, full_name, phone_number, role, vehicle_plate_number, vehicle_type, is_online, address, latitude, longitude, merchant_category, is_open_24h } = userData;
 
             // 1. Create the user in auth.users first
             const { data: authData, error: authError } = await supabaseAdmin.auth.admin.createUser({
@@ -53,6 +53,7 @@ export async function POST(request: Request) {
                 phone_number: phone_number || null,
                 role,
                 vehicle_plate_number: vehicle_plate_number || null,
+                vehicle_type: vehicle_type || null,
                 is_online,
                 address: address || null,
                 latitude: latitude || null,
