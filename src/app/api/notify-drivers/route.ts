@@ -99,7 +99,12 @@ export async function POST(request: Request) {
             const hasEnoughBalance = balance >= minBalance;
             const isNotBusy = !busyDriverIds.has(driver.id);
             const driverVehicleType = driver.vehicle_type ? String(driver.vehicle_type).toUpperCase() : 'MOTOR';
-            const matchesVehicleType = isCarService ? driverVehicleType === 'MOBIL' : driverVehicleType !== 'MOBIL';
+            // For non-car services: any driver that is NOT a MOBIL driver
+            const matchesVehicleType = isCarService 
+                ? (driverVehicleType === 'MOBIL' || driverVehicleType.includes('MOBIL') || driverVehicleType.includes('CAR'))
+                : (driverVehicleType !== 'MOBIL' && !driverVehicleType.includes('MOBIL'));
+
+            console.log(`Driver ${driver.id}: balance=${balance}, minRequired=${minBalance}, isNotBusy=${isNotBusy}, vehicleType=${driverVehicleType}, matchesVehicle=${matchesVehicleType}`);
 
             // IF TARGETED: Only allow the specific driver
             if (order.driver_id) {
@@ -110,8 +115,10 @@ export async function POST(request: Request) {
             return hasEnoughBalance && isNotBusy && matchesVehicleType;
         });
 
+        console.log(`Filtered ${availableDrivers.length} available drivers out of ${drivers.length} online.`);
+
         if (availableDrivers.length === 0) {
-            console.log(`No available drivers for order ${orderId} (Filtered by balance/active order). Total Online: ${drivers.length}`);
+            console.log(`No available drivers for order ${orderId}. Online=${drivers.length}, minBalance=${minBalance}, busyCount=${busyDriverIds.size}`);
             return NextResponse.json({
                 success: true,
                 message: "No available drivers met constraints",
@@ -136,10 +143,11 @@ export async function POST(request: Request) {
 
         const oneSignalPayload = {
             app_id: appId,
-            include_player_ids: tokens, // Array of driver onesignal_ids
-            headings: { en: "ADA PESANAN BARU!" },
+            include_subscription_ids: tokens, // Array of driver onesignal_ids (formerly include_player_ids)
+            headings: { en: "ADA PESANAN BARU! 🚗" },
             contents: { en: `Cepat ambil! Pesanan dari ${order.pickup_address} menuju ${order.dropoff_address}` },
             priority: 10,
+            android_channel_id: "orders", // Optional: custom notification channel
             data: {
                 order_id: order.id,
                 type: "NEW_ORDER",

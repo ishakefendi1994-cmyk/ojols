@@ -1,0 +1,50 @@
+[
+  {
+    "name": "SPBU Pertamina Gas Station",
+    "address": "SPBU Pertamina Gas Station\n4,0\nPom bensin/SPBU\nBuka · Tutup pukul 22.00",
+    "latitude": -2.0583235,
+    "longitude": 102.2742092
+  },
+  {
+    "name": "SPBU Pertamina 24.373.29",
+    "address": "SPBU Pertamina 24.373.29\n4,0\nPom bensin/SPBU · W7FR+V3J\nBuka · Tutup pukul 18.00",
+    "latitude": -2.0752791,
+    "longitude": 102.2901399
+  },
+  {
+    "name": "SPBU Pasar Atas Bangko (24.373.74)",
+    "address": "SPBU Pasar Atas Bangko (24.373.74)\n4,2\nPom bensin/SPBU · W753+C6J, Jl. Raya Bangko-Kerinci\nBuka · Tutup pukul 21.30",
+    "latitude": -2.091401,
+    "longitude": 102.2530184
+  },
+  {
+    "name": "Sungai Misang",
+    "address": "Sungai Misang\n3,3\nBengkel Fiberglass ·  · W7GQ+2FF, Jl. Lintas Sumatera\nBuka · Tutup Kam pukul 05.00 · 0812-7439-3717",
+    "latitude": -2.074933,
+    "longitude": 102.2886784
+  },
+  {
+    "name": "SPBU Pertamina 24.373.84",
+    "address": "SPBU Pertamina 24.373.84\n3,7\nPom bensin/SPBU · W8QC+P64\nBuka · Tutup pukul 18.00",
+    "latitude": -2.0606425,
+    "longitude": 102.3206212
+  },
+  {
+    "name": "PERTAMINA",
+    "address": "PERTAMINA\n4,0\nPom bensin/SPBU · W753+F4M, Jl. Raya Bangko-Kerinci",
+    "latitude": -2.0912827,
+    "longitude": 102.2527984
+  },
+  {
+    "name": "PERTAMINA",
+    "address": "PERTAMINA\n3,1\nPom bensin/SPBU\nBuka sekarang · 0812-7808-3138",
+    "latitude": -2.0505104,
+    "longitude": 102.2690988
+  },
+  {
+    "name": "Bengkel edi titanium",
+    "address": "Bengkel edi titanium\n5,0\nPom bensin/SPBU · W7PC+W84, Jl. Letnan Isdaini\nBuka · Tutup pukul 17.00",
+    "latitude": -2.062746,
+    "longitude": 102.270826
+  }
+]

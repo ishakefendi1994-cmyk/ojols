@@ -1,0 +1,302 @@
+[
+  {
+    "name": "Rumah Makan Anugrah",
+    "address": "Rumah Makan Anugrah\n4,8\nRestoran ·  · Ps. BAWAH\nBuka · Tutup pukul 17.00",
+    "latitude": -2.0746029,
+    "longitude": 102.2749975
+  },
+  {
+    "name": "The New Mlangun",
+    "address": "The New Mlangun\n4,0\nRestoran · W7FG+RQW, Jl. H. Makalam\nBuka · Tutup pukul 23.30",
+    "latitude": -2.0753864,
+    "longitude": 102.2769538
+  },
+  {
+    "name": "RM. Monggo (Masakan Nusantara)",
+    "address": "RM. Monggo (Masakan Nusantara)\n4,1\nRumah Makan ·  · W7JF+GFF\nBuka · Tutup pukul 23.00",
+    "latitude": -2.0686782,
+    "longitude": 102.2736661
+  },
+  {
+    "name": "Green Kandis Bangko",
+    "address": "Green Kandis Bangko\n3,8\nRestoran Seafood ·  · W7XR+GMP\nBuka 24 jam",
+    "latitude": -2.0511743,
+    "longitude": 102.2917173
+  },
+  {
+    "name": "RM Dendeng Batokok Beras Payo Kerinci 1",
+    "address": "RM Dendeng Batokok Beras Payo Kerinci 1\n4,5\nRestoran Indonesia ·  · JL. Simpang Tinggi\nBuka · Tutup pukul 21.30",
+    "latitude": -2.0732427,
+    "longitude": 102.2741435
+  },
+  {
+    "name": "Saung bang dedy",
+    "address": "Saung bang dedy\n3,9\nRestoran · X72R+M7H, RT.13/RW.05\nBuka · Tutup pukul 22.00",
+    "latitude": -2.0510819,
+    "longitude": 102.2919138
+  },
+  {
+    "name": "Amazy Resto Bangko",
+    "address": "Amazy Resto Bangko\n3,9\nRestoran ·  · W7HF+7Q3\nBuka · Tutup pukul 21.00",
+    "latitude": -2.0718577,
+    "longitude": 102.2744307
+  },
+  {
+    "name": "RM. Makan Perentak",
+    "address": "RM. Makan Perentak\n4,1\nRestoran Padang ·  · Jl. Raya Bangko-Kerinci\nBuka · Tutup pukul 22.00",
+    "latitude": -2.0751977,
+    "longitude": 102.2745005
+  },
+  {
+    "name": "Rumah Makan Sinar Biuku",
+    "address": "Rumah Makan Sinar Biuku\n3,8\nRestoran Asia ·  · W753+WCG, Jalan Lintas Sumatra\nBuka 24 jam",
+    "latitude": -2.0901981,
+    "longitude": 102.253581
+  },
+  {
+    "name": "RM. Pincuran Bayang",
+    "address": "RM. Pincuran Bayang\n4,5\nRestoran Indonesia · Jl. H. M. Haris , belakang pasar rakyat\nBuka · Tutup pukul 22.00",
+    "latitude": -2.0700525,
+    "longitude": 102.272103
+  },
+  {
+    "name": "RM Valencia Baru Masakan Khas Merangin",
+    "address": "RM Valencia Baru Masakan Khas Merangin\n4,5\nRumah Makan ·  · W7GH+FHM, bukit aur\nBuka sekarang",
+    "latitude": -2.0737965,
+    "longitude": 102.2789276
+  },
+  {
+    "name": "RM Al-Barokah Bangko",
+    "address": "RM Al-Barokah Bangko\n4,3\nRestoran Padang · W7PC+2X6\nBuka · Tutup pukul 22.00",
+    "latitude": -2.0649518,
+    "longitude": 102.272393
+  },
+  {
+    "name": "Rumah Makan Pusako",
+    "address": "Rumah Makan Pusako\n4,5\nRestoran Padang ·  · Jl. Lintas Sumatera\nBuka · Tutup pukul 22.00",
+    "latitude": -2.0605406,
+    "longitude": 102.2728617
+  },
+  {
+    "name": "Bakoel Steak and Shake",
+    "address": "Bakoel Steak and Shake\n3,8\nRestoran Steak ·  · W7JW+C7V\nBuka · Tutup pukul 23.00",
+    "latitude": -2.0688842,
+    "longitude": 102.2956813
+  },
+  {
+    "name": "Rumah makan awak juo (Candra Ajo)",
+    "address": "Rumah makan awak juo (Candra Ajo)\n4,6\nRestoran ·  · W7GF+275, Jl. Raya Bangko-Kerinci\nBuka · Tutup pukul 18.00",
+    "latitude": -2.0749836,
+    "longitude": 102.27325
+  },
+  {
+    "name": "d’Besto Chicken & Burger H. Makalam",
+    "address": "d’Besto Chicken & Burger H. Makalam\n4,8\nRestoran Masakan Ayam ·  · W7GF+PQJ\nBuka · Tutup pukul 23.00",
+    "latitude": -2.0732132,
+    "longitude": 102.2743628
+  },
+  {
+    "name": "ROOFTOP'S CAFE & FOOD COURT",
+    "address": "ROOFTOP'S CAFE & FOOD COURT\n4,7\nKedai Kopi · Jl. Lintas Sumatera No.2\nBuka · Tutup pukul 23.30",
+    "latitude": -2.0746002,
+    "longitude": 102.2847506
+  },
+  {
+    "name": "Warung Arjun Sambal Ijo",
+    "address": "Warung Arjun Sambal Ijo\n4,6\nRumah Makan ·  · W7J9+JXH\nBuka · Tutup pukul 21.00",
+    "latitude": -2.0684409,
+    "longitude": 102.2699947
+  },
+  {
+    "name": "KEBAB KAIRO",
+    "address": "KEBAB KAIRO\n5,0\nRestoran cepat saji ·  · Jl. Raya Bangko-Kerinci\nBuka · Tutup pukul 23.00",
+    "latitude": -2.0760994,
+    "longitude": 102.2761052
+  },
+  {
+    "name": "Steak On You Bangko",
+    "address": "Steak On You Bangko\n4,0\nRestoran Steak · Jl. Kesehatan No.5\nBuka · Tutup pukul 22.00",
+    "latitude": -2.0642377,
+    "longitude": 102.2751239
+  },
+  {
+    "name": "NINETEEN COFFEE",
+    "address": "NINETEEN COFFEE\n4,7\nKedai Kopi\nBuka · Tutup pukul 23.00",
+    "latitude": -2.0710645,
+    "longitude": 102.2744721
+  },
+  {
+    "name": "BANGKO FRIED CHICKEN",
+    "address": "BANGKO FRIED CHICKEN\n4,8\nRestoran takeaway ayam goreng ·  · Belakang kantor bupati , samping bakso idola, Jl. Sultan Hasanuddin",
+    "latitude": -2.0595863,
+    "longitude": 102.2759059
+  },
+  {
+    "name": "Bakoel Steak and Shake",
+    "address": "Bakoel Steak and Shake\n3,8\nRestoran Steak ·  · W7JW+C7V\nBuka · Tutup pukul 23.00",
+    "latitude": -2.0688842,
+    "longitude": 102.2956813
+  },
+  {
+    "name": "Cwimie Malang Yoiki Bangko",
+    "address": "Cwimie Malang Yoiki Bangko\n4,3\nRestoran Bakso · \nBuka · Tutup pukul 22.00",
+    "latitude": -2.0465546,
+    "longitude": 102.2790888
+  },
+  {
+    "name": "Dapoer Bunda Lylla",
+    "address": "Dapoer Bunda Lylla\n4,3\nKafe ·  · Jl. Teuku Umar Lorong Damai No.117\nBuka · Tutup pukul 21.00",
+    "latitude": -2.0663545,
+    "longitude": 102.2711079
+  },
+  {
+    "name": "LESEHAN AULIA",
+    "address": "LESEHAN AULIA\n4,3\nRestoran · \nBuka · Tutup pukul 20.00",
+    "latitude": -2.045629,
+    "longitude": 102.2789077
+  },
+  {
+    "name": "Rumah Makan Palanta Sutan",
+    "address": "Rumah Makan Palanta Sutan\n4,3\nRestoran Padang ·  · W7RF+C3M\nBuka · Tutup pukul 21.30",
+    "latitude": -2.0589008,
+    "longitude": 102.2726602
+  },
+  {
+    "name": "Rumah Makan Ampera Baru",
+    "address": "Rumah Makan Ampera Baru\n4,4\nRestoran · W7FC+C85, Jl. Raya Bangko-Kerinci\nBuka sekarang",
+    "latitude": -2.0764991,
+    "longitude": 102.2708561
+  },
+  {
+    "name": "Pempek 115",
+    "address": "Pempek 115\n4,7\nRestoran Pempek ·  · Jl. RA Kartini\nBuka · Tutup pukul 23.00",
+    "latitude": -2.0657487,
+    "longitude": 102.2767063
+  },
+  {
+    "name": "Waroeng Ghafito Bangko",
+    "address": "Waroeng Ghafito Bangko\n4,6\nKafe ·  · W7C8+6HC, Jl. Pinang Sebatang\nBuka · Tutup pukul 23.00",
+    "latitude": -2.0794367,
+    "longitude": 102.2663875
+  },
+  {
+    "name": "Steak On You Bangko",
+    "address": "Steak On You Bangko\n4,0\nRestoran Steak · Jl. Kesehatan No.5\nBuka · Tutup pukul 22.00",
+    "latitude": -2.0642377,
+    "longitude": 102.2751239
+  },
+  {
+    "name": "Sate Mela Bangko",
+    "address": "Sate Mela Bangko\n4,8\nWarung tegal · Sate Mela kabupaten Merangin Bangko Jambi,timbul\nBuka · Tutup pukul 21.30",
+    "latitude": -2.0809803,
+    "longitude": 102.2650515
+  },
+  {
+    "name": "Rumah Makan dan katering Makwo Kas",
+    "address": "Rumah Makan dan katering Makwo Kas\n4,3\nRestoran ·  · Jl. Lorong Mukminin I No.32\nBuka · Tutup pukul 19.00",
+    "latitude": -2.056661,
+    "longitude": 102.2799039
+  },
+  {
+    "name": "Rumah Makan Uni Eli",
+    "address": "Rumah Makan Uni Eli\n4,0\nRestoran Keluarga ·  · W7MF+33V, Jl. Teuku Umar\nBuka · Tutup pukul 22.00",
+    "latitude": -2.0672512,
+    "longitude": 102.2726867
+  },
+  {
+    "name": "Sambal Ijo",
+    "address": "Sambal Ijo\n4,5\nRestoran ·  · W7HF+6RC",
+    "latitude": -2.0719276,
+    "longitude": 102.2745086
+  },
+  {
+    "name": "Warung Barokah",
+    "address": "Warung Barokah\n4,5\nRestoran Jawa ·  · W7QJ+GR2, Unnamed Road\nBuka · Tutup pukul 22.30",
+    "latitude": -2.0612456,
+    "longitude": 102.2820279
+  },
+  {
+    "name": "Mie Ayam & Bakso Tombo Tresno Bangko",
+    "address": "Mie Ayam & Bakso Tombo Tresno Bangko\n4,3\nRestoran ·  · Jl. Kesehatan\nBuka · Tutup pukul 22.00",
+    "latitude": -2.0634204,
+    "longitude": 102.2747054
+  },
+  {
+    "name": "Bebek Bakar Jeng Emy",
+    "address": "Bebek Bakar Jeng Emy\n4,4\nRestoran Pecel Lele · \nBuka · Tutup Kam pukul 04.30",
+    "latitude": -2.0583808,
+    "longitude": 102.2737059
+  },
+  {
+    "name": "Pondok Bang R Cafe & Resto",
+    "address": "Pondok Bang R Cafe & Resto\n3,8\nRestoran ·  · W7FH+5HX, Jl. Talang Kawo Lingkungan Pulau Kemang\nBuka · Tutup pukul 23.00",
+    "latitude": -2.0770234,
+    "longitude": 102.278999
+  },
+  {
+    "name": "Keeno Cafe",
+    "address": "Keeno Cafe\n3,8\nRestoran\nBuka · Tutup pukul 23.00",
+    "latitude": -2.0589866,
+    "longitude": 102.2733915
+  },
+  {
+    "name": "Kafe-21 Ps Bawah",
+    "address": "Kafe-21 Ps Bawah\n4,2\nKafe · Pasar Bawah\nBuka 24 jam",
+    "latitude": -2.074671,
+    "longitude": 102.2734572
+  },
+  {
+    "name": "RM Riri",
+    "address": "RM Riri\n5,0\nRestoran Indonesia · W7HF+MPQ\nBuka · Tutup pukul 18.00",
+    "latitude": -2.070786,
+    "longitude": 102.2743712
+  },
+  {
+    "name": "Ciko Cafe",
+    "address": "Ciko Cafe\n4,3\nKafe · Jl.Lintas Sumatra No.Km.2 Kel\nBuka · Tutup pukul 22.00",
+    "latitude": -2.0746404,
+    "longitude": 102.2841297
+  },
+  {
+    "name": "MR. CHICKEN",
+    "address": "MR. CHICKEN\n3,9\nRestoran Masakan Ayam ·  · Jl. Kesehatan No.12a\nBuka · Tutup pukul 22.00",
+    "latitude": -2.0660205,
+    "longitude": 102.275162
+  },
+  {
+    "name": "Warung Nasi Aroma",
+    "address": "Warung Nasi Aroma\n4,3\nWarung nasi · \nBuka · Tutup pukul 21.00",
+    "latitude": -2.0577814,
+    "longitude": 102.2718599
+  },
+  {
+    "name": "SAIMEN Bakery & Resto - Gerai Bangko",
+    "address": "SAIMEN Bakery & Resto - Gerai Bangko\n4,1\nToko Roti ·  · W7QF+X6Q\nBuka · Tutup pukul 22.00",
+    "latitude": -2.0600406,
+    "longitude": 102.273098
+  },
+  {
+    "name": "Rumah makan kampar III",
+    "address": "Rumah makan kampar III\n5,0\nRestoran Padang ·  · W7PC+JFM, Jl. Letnan Isdaini\nBuka 24 jam",
+    "latitude": -2.0634238,
+    "longitude": 102.2711631
+  },
+  {
+    "name": "O'Chicken Bangko",
+    "address": "O'Chicken Bangko\n4,0\nRestoran ·  · Samping RSUD Kol Abundjani, Jl. Kesehatan\nBuka · Tutup pukul 21.00",
+    "latitude": -2.062316,
+    "longitude": 102.2749554
+  },
+  {
+    "name": "Rumah makan bik Ijah",
+    "address": "Rumah makan bik Ijah\n5,0\nKedai Sarapan & Makan Siang · W7GQ+297, Jl. Lintas Sumatera\nBuka 24 jam",
+    "latitude": -2.0749674,
+    "longitude": 102.2884295
+  },
+  {
+    "name": "kuliner kampar merangin",
+    "address": "kuliner kampar merangin\n2,6\nRestoran · Jl. Teuku Umar Lrg. Kampar, RT.09/RW.03\nBuka · Tutup pukul 21.00",
+    "latitude": -2.0613933,
+    "longitude": 102.2696509
+  }
+]
