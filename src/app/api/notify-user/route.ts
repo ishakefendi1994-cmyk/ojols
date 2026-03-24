@@ -101,7 +101,7 @@ export async function POST(request: Request) {
 
         const oneSignalPayload = {
             app_id: appId,
-            include_player_ids: [profile.onesignal_id],
+            include_subscription_ids: [profile.onesignal_id],
             headings: { en: title },
             contents: { en: messageBody },
             priority: 10,

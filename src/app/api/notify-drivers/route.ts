@@ -96,26 +96,22 @@ export async function POST(request: Request) {
         // 5. Filter drivers based on constraints
         const availableDrivers = drivers.filter(driver => {
             const balance = walletMap.get(driver.id) || 0;
-            const hasEnoughBalance = balance >= minBalance;
+            // Only enforce min balance if service requires it
+            const hasEnoughBalance = minBalance > 0 ? balance >= minBalance : true;
             const isNotBusy = !busyDriverIds.has(driver.id);
-            const driverVehicleType = driver.vehicle_type ? String(driver.vehicle_type).toUpperCase() : 'MOTOR';
-            // For non-car services: any driver that is NOT a MOBIL driver
-            const matchesVehicleType = isCarService 
-                ? (driverVehicleType === 'MOBIL' || driverVehicleType.includes('MOBIL') || driverVehicleType.includes('CAR'))
-                : (driverVehicleType !== 'MOBIL' && !driverVehicleType.includes('MOBIL'));
 
-            console.log(`Driver ${driver.id}: balance=${balance}, minRequired=${minBalance}, isNotBusy=${isNotBusy}, vehicleType=${driverVehicleType}, matchesVehicle=${matchesVehicleType}`);
+            console.log(`Driver ${driver.id}: balance=${balance}, minRequired=${minBalance}, busy=${busyDriverIds.has(driver.id)}, onesignal=${driver.onesignal_id}`);
 
             // IF TARGETED: Only allow the specific driver
             if (order.driver_id) {
                 return driver.id === order.driver_id;
             }
 
-            // IF BROADCAST: Filter by constraints
-            return hasEnoughBalance && isNotBusy && matchesVehicleType;
+            // IF BROADCAST: Notify all available online drivers
+            return hasEnoughBalance && isNotBusy;
         });
 
-        console.log(`Filtered ${availableDrivers.length} available drivers out of ${drivers.length} online.`);
+        console.log(`Available: ${availableDrivers.length}/${drivers.length} drivers. minBalance=${minBalance}`);
 
         if (availableDrivers.length === 0) {
             console.log(`No available drivers for order ${orderId}. Online=${drivers.length}, minBalance=${minBalance}, busyCount=${busyDriverIds.size}`);
