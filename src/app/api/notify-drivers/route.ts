@@ -100,7 +100,26 @@ export async function POST(request: Request) {
             const hasEnoughBalance = minBalance > 0 ? balance >= minBalance : true;
             const isNotBusy = !busyDriverIds.has(driver.id);
 
-            console.log(`Driver ${driver.id}: balance=${balance}, minRequired=${minBalance}, busy=${busyDriverIds.has(driver.id)}, onesignal=${driver.onesignal_id}`);
+            // 5.5 Vehicle Type Isolation (Align with App Logic)
+            const driverType = (driver.vehicle_type || 'MOTOR').toUpperCase();
+            let isTypeMatch = true;
+
+            if (order.vehicle_type) {
+                // Specific tier requested (e.g. XL, HEMAT)
+                isTypeMatch = driverType === order.vehicle_type.toUpperCase();
+            } else {
+                // General Car vs Motor split
+                const isCarDriver = driverType === 'MOBIL' || driverType === 'CAR' || 
+                                   driverType.includes('XL') || driverType.includes('HEMAT');
+                
+                if (isCarDriver) {
+                    isTypeMatch = isCarService; // Car driver only gets car services
+                } else {
+                    isTypeMatch = !isCarService; // Motor driver only gets motor services
+                }
+            }
+
+            console.log(`DEBUG: Filter Driver ${driver.id.substring(0,8)}... | balance=${balance} | minRequired=${minBalance} | busy=${!isNotBusy} | type=${driverType} | isTypeMatch=${isTypeMatch} | onesignal=${driver.onesignal_id ? 'SET' : 'NULL'}`);
 
             // IF TARGETED: Only allow the specific driver
             if (order.driver_id) {
@@ -108,7 +127,7 @@ export async function POST(request: Request) {
             }
 
             // IF BROADCAST: Notify all available online drivers
-            return hasEnoughBalance && isNotBusy;
+            return hasEnoughBalance && isNotBusy && isTypeMatch;
         });
 
         console.log(`Available: ${availableDrivers.length}/${drivers.length} drivers. minBalance=${minBalance}`);
@@ -139,11 +158,11 @@ export async function POST(request: Request) {
 
         const oneSignalPayload = {
             app_id: appId,
-            include_subscription_ids: tokens, // Array of driver onesignal_ids (formerly include_player_ids)
+            include_subscription_ids: tokens, // Array of driver onesignal_ids
             headings: { en: "ADA PESANAN BARU! 🚗" },
             contents: { en: `Cepat ambil! Pesanan dari ${order.pickup_address} menuju ${order.dropoff_address}` },
             priority: 10,
-            android_channel_id: "orders", // Optional: custom notification channel
+            // android_channel_id: "orders", // Removed to use default channel (same as working chat/status)
             data: {
                 order_id: order.id,
                 type: "NEW_ORDER",
