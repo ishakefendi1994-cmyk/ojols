@@ -6,7 +6,7 @@ import { NextResponse } from 'next/server';
  */
 export async function GET() {
     try {
-        const targetUrl = process.env.WHATSAPP_SERVICE_URL || "http://localhost:4000";
+        const targetUrl = (process.env.WHATSAPP_SERVICE_URL || "http://localhost:4000").replace(/\/$/, "");
 
         const response = await fetch(`${targetUrl}/qr`, {
             method: 'GET',
