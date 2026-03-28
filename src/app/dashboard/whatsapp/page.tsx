@@ -25,8 +25,14 @@ export default function WhatsAppDashboardPage() {
         try {
             const res = await fetch('/api/whatsapp/status');
             const data = await res.json();
-            setQr(data.qr);
-            setStatus(data.message || (data.qr ? 'Pending Scan' : 'Connected'));
+            
+            if (!res.ok || data.error) {
+                setStatus('Service Down');
+                setQr(null);
+            } else {
+                setQr(data.qr);
+                setStatus(data.message || (data.qr ? 'Pending Scan' : (data.id ? 'Connected' : 'Disconnected')));
+            }
             setLastUpdated(new Date());
             setLoading(false);
         } catch (err) {
