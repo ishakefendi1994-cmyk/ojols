@@ -5,6 +5,10 @@ import { NextResponse } from 'next/server';
  * Generate and Send OTP via WhatsApp
  * POST /api/otp/generate
  */
+export async function GET() {
+    return NextResponse.json({ status: "API Route OTP Generate is Active" });
+}
+
 export async function POST(request: Request) {
     try {
         const { phone } = await request.json();
