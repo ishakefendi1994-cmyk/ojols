@@ -35,15 +35,8 @@ export async function POST(request: Request) {
         if (dbError) throw dbError;
 
         // 3. Send via WhatsApp Service
-        const targetUrl = process.env.WHATSAPP_SERVICE_URL?.replace(/\/$/, "");
+        const targetUrl = "https://wa-server-production-f94e.up.railway.app";
         const authKey = process.env.WHATSAPP_INTERNAL_KEY;
-
-        if (!targetUrl) {
-            return NextResponse.json({ 
-                error: "Konfigurasi Server WA Belum Lengkap", 
-                details: "WHATSAPP_SERVICE_URL tidak ditemukan di Environment Variables Vercel." 
-            }, { status: 500 });
-        }
 
         const waResponse = await fetch(`${targetUrl}/send-message`, {
             method: 'POST',
