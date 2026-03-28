@@ -5,9 +5,14 @@ import { NextResponse } from 'next/server';
  * Verify OTP Code
  * POST /api/otp/verify
  */
+export async function GET() {
+    return new Response("OTP VERIFY OK");
+}
+
 export async function POST(request: Request) {
     try {
-        const { phone, code } = await request.json();
+        const body = await request.json().catch(() => ({}));
+        const { phone, code } = body;
 
         if (!phone || !code) {
             return NextResponse.json({ error: "Data tidak lengkap" }, { status: 400 });

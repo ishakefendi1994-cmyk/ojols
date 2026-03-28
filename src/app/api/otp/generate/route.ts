@@ -6,12 +6,13 @@ import { NextResponse } from 'next/server';
  * POST /api/otp/generate
  */
 export async function GET() {
-    return NextResponse.json({ status: "API Route OTP Generate is Active" });
+    return new Response("OTP GENERATE OK");
 }
 
 export async function POST(request: Request) {
     try {
-        const { phone } = await request.json();
+        const body = await request.json().catch(() => ({}));
+        const { phone } = body;
 
         if (!phone) {
             return NextResponse.json({ error: "Nomor WhatsApp diperlukan" }, { status: 400 });
