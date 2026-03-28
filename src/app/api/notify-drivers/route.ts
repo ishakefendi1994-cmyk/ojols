@@ -162,7 +162,7 @@ export async function POST(request: Request) {
             headings: { en: "ADA PESANAN BARU! 🚗" },
             contents: { en: `Cepat ambil! Pesanan dari ${order.pickup_address} menuju ${order.dropoff_address}` },
             priority: 10,
-            // android_channel_id: "orders", // Removed to use default channel (same as working chat/status)
+            android_channel_id: "order_alerts_v1",
             data: {
                 order_id: order.id,
                 type: "NEW_ORDER",

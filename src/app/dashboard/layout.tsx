@@ -28,7 +28,8 @@ import {
     ChevronRight,
     Smartphone,
     MapPin,
-    Bus
+    Bus,
+    MessageSquare
 } from 'lucide-react';
 
 export default function DashboardLayout({
@@ -86,6 +87,7 @@ export default function DashboardLayout({
             title: 'Utama',
             items: [
                 { name: 'Dashboard', href: '/dashboard', icon: LayoutDashboard },
+                { name: 'WhatsApp Server', href: '/dashboard/whatsapp', icon: MessageSquare },
             ]
         },
         {

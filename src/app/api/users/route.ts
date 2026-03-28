@@ -50,6 +50,7 @@ export async function POST(request: Request) {
             const profileData = {
                 id: authData.user.id,
                 full_name,
+                email: email.toLowerCase(),
                 phone_number: phone_number || null,
                 role,
                 vehicle_plate_number: vehicle_plate_number || null,
