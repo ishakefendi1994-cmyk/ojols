@@ -6,7 +6,7 @@ import { NextResponse } from 'next/server';
  */
 export async function POST() {
     try {
-        const targetUrl = process.env.WHATSAPP_SERVICE_URL || "http://localhost:4000";
+        const targetUrl = (process.env.WHATSAPP_SERVICE_URL || "http://localhost:4000").replace(/\/$/, "");
         const authKey = process.env.WHATSAPP_INTERNAL_KEY;
 
         const response = await fetch(`${targetUrl}/logout`, {
