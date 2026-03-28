@@ -30,7 +30,7 @@ export async function POST(request: Request) {
         if (dbError) throw dbError;
 
         // 3. Send via WhatsApp Service
-        const targetUrl = process.env.WHATSAPP_SERVICE_URL || "http://localhost:4000";
+        const targetUrl = (process.env.WHATSAPP_SERVICE_URL || "http://localhost:4000").replace(/\/$/, "");
         const authKey = process.env.WHATSAPP_INTERNAL_KEY;
 
         const waResponse = await fetch(`${targetUrl}/send-message`, {
