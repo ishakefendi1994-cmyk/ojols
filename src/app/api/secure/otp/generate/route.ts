@@ -36,7 +36,7 @@ export async function POST(request: Request) {
 
         // 3. Send via WhatsApp Service
         const targetUrl = "https://wa-server-production-f94e.up.railway.app";
-        const authKey = process.env.WHATSAPP_INTERNAL_KEY;
+        const authKey = process.env.WHATSAPP_INTERNAL_KEY || "standard_secret_key";
 
         const waResponse = await fetch(`${targetUrl}/send-message`, {
             method: 'POST',
