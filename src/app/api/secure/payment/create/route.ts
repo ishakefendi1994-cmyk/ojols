@@ -24,8 +24,8 @@ export async function POST(request: Request) {
             return NextResponse.json({ error: 'Data tidak valid. Minimal top-up Rp 10.000' }, { status: 400 });
         }
 
-        const merchantCode = process.env.DUITKU_MERCHANT_CODE || 'DS15179'; // Sandbox default
-        const apiKey = process.env.DUITKU_API_KEY || 'YOUR_SANDBOX_API_KEY';
+        const merchantCode = process.env.DUITKU_MERCHANT_CODE || 'DS21505'; 
+        const apiKey = process.env.DUITKU_API_KEY || 'f62562ba13abc40d26104da10abbc41a';
         const host = request.headers.get('host') || 'ojols.vercel.app';
         const callbackUrl = 'https://ojols.vercel.app/api/secure/payment/callback';
         const returnUrl = process.env.DUITKU_RETURN_URL || 'https://ojols.vercel.app/payment/success';

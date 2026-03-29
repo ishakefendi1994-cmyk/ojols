@@ -34,7 +34,7 @@ export async function POST(request: Request) {
         }
 
         // Validate signature: md5(merchantCode + amount + apiKey + merchantOrderId)
-        const apiKey = process.env.DUITKU_API_KEY || 'YOUR_SANDBOX_API_KEY';
+        const apiKey = process.env.DUITKU_API_KEY || 'f62562ba13abc40d26104da10abbc41a';
         const expectedSignature = crypto
             .createHash('md5')
             .update(`${merchantCode}${amount}${apiKey}${merchantOrderId}`)
