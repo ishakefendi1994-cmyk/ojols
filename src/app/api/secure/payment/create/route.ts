@@ -27,8 +27,7 @@ export async function POST(request: Request) {
         const merchantCode = process.env.DUITKU_MERCHANT_CODE || 'DS15179'; // Sandbox default
         const apiKey = process.env.DUITKU_API_KEY || 'YOUR_SANDBOX_API_KEY';
         const host = request.headers.get('host') || 'ojols.vercel.app';
-        const protocol = host.includes('localhost') ? 'http' : 'https';
-        const callbackUrl = process.env.DUITKU_CALLBACK_URL || `${protocol}://${host}/api/secure/payment/callback`;
+        const callbackUrl = 'https://ojols.vercel.app/api/secure/payment/callback';
         const returnUrl = process.env.DUITKU_RETURN_URL || 'https://ojols.vercel.app/payment/success';
         const isDev = process.env.DUITKU_ENV !== 'production';
         const duitkuUrl = isDev

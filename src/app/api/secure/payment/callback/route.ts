@@ -19,20 +19,17 @@ export async function GET() {
 export async function POST(request: Request) {
     try {
         // Duitku sends form-encoded data
-        const formData = await request.formData().catch(async () => {
-            // Fallback to JSON
-            const body = await request.json().catch(() => ({}));
-            return new Map(Object.entries(body));
-        });
-
-        const merchantCode = formData.get('merchantCode') as string;
-        const amount = formData.get('amount') as string;
-        const merchantOrderId = formData.get('merchantOrderId') as string;
-        const resultCode = formData.get('resultCode') as string;
-        const signature = formData.get('signature') as string;
+        const bodyText = await request.text();
+        const params = new URLSearchParams(bodyText);
+        
+        const merchantCode = params.get('merchantCode');
+        const amount = params.get('amount');
+        const merchantOrderId = params.get('merchantOrderId');
+        const resultCode = params.get('resultCode');
+        const signature = params.get('signature');
 
         if (!merchantCode || !amount || !merchantOrderId || !signature) {
-            console.error('Duitku Callback: Missing required fields', { merchantCode, amount, merchantOrderId });
+            console.error('Duitku Callback: Missing required fields', { merchantCode, amount, merchantOrderId, bodyText });
             return new Response('Invalid callback data', { status: 400 });
         }
 
