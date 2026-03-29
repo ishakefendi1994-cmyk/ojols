@@ -2,6 +2,10 @@ import { getSupabaseAdmin } from '@/lib/supabase';
 import { NextResponse } from 'next/server';
 import * as crypto from 'crypto';
 
+export async function GET() {
+    return new Response("PAYMENT CREATE API OK");
+}
+
 /**
  * Duitku - Create Payment Invoice
  * POST /api/payment/create
