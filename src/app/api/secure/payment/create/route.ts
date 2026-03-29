@@ -8,10 +8,6 @@ export async function GET() {
     return new Response("PAYMENT CREATE API OK - READY FOR POST");
 }
 
-export async function GET() {
-    return new Response("PAYMENT CREATE API OK");
-}
-
 /**
  * Duitku - Create Payment Invoice
  * POST /api/payment/create
