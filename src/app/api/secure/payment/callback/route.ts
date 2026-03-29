@@ -2,6 +2,10 @@ import { getSupabaseAdmin } from '@/lib/supabase';
 import { NextResponse } from 'next/server';
 import * as crypto from 'crypto';
 
+export async function GET() {
+    return new Response("PAYMENT CALLBACK API OK");
+}
+
 /**
  * Duitku - Payment Callback/Webhook
  * POST /api/payment/callback
