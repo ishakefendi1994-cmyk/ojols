@@ -4,9 +4,7 @@ import * as crypto from 'crypto';
 
 export const dynamic = 'force-dynamic';
 
-export async function GET() {
-    return new Response("PAYMENT CREATE API OK - READY FOR POST");
-}
+
 
 /**
  * Duitku - Create Payment Invoice
