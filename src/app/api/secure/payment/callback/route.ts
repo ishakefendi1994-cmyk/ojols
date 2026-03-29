@@ -83,6 +83,44 @@ export async function POST(request: Request) {
             }
 
             console.log(`✅ Duitku Callback: TOP UP APPROVED for order ${merchantOrderId}, amount ${amount}`);
+
+            // --- DIRECT WALLET CREDIT (Since trigger might be missing) ---
+            try {
+                // 1. Get Wallet
+                const { data: wallet, error: walletError } = await supabaseAdmin
+                    .from('wallets')
+                    .select('id, balance')
+                    .eq('user_id', topupRequest.user_id)
+                    .single();
+
+                if (!walletError && wallet) {
+                    // 2. Update Balance
+                    const { error: balError } = await supabaseAdmin
+                        .from('wallets')
+                        .update({ 
+                            balance: Number(wallet.balance) + Number(amount),
+                            updated_at: new Date().toISOString()
+                        })
+                        .eq('id', wallet.id);
+
+                    if (!balError) {
+                        // 3. Record Transaction
+                        await supabaseAdmin
+                            .from('transactions')
+                            .insert({
+                                wallet_id: wallet.id,
+                                type: 'TOPUP',
+                                amount: Number(amount),
+                                description: `Admin: Top up otomatis Duitku (${merchantOrderId})`
+                            });
+                        console.log(`💰 Wallet Updated: +${amount} to user ${topupRequest.user_id}`);
+                    }
+                }
+            } catch (creditErr) {
+                console.error('Failed to credit wallet directly:', creditErr);
+            }
+            // -------------------------------------------------------------
+
         } else {
             // Payment failed or cancelled - update status to REJECTED
             await supabaseAdmin
