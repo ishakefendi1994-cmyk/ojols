@@ -52,7 +52,7 @@ export async function POST(request: Request) {
             // Find topup_request by merchantOrderId (stored in admin_note)
             const { data: topupRequest, error: findError } = await supabaseAdmin
                 .from('topup_requests')
-                .select('id, status')
+                .select('id, status, user_id')
                 .eq('admin_note', merchantOrderId)
                 .single();
 
