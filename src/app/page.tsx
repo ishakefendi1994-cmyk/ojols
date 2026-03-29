@@ -163,14 +163,32 @@ export default function LandingPage() {
             </p>
             
             <div className="flex flex-col sm:flex-row gap-4">
-              <button className="flex items-center justify-center gap-3 bg-white text-slate-900 px-8 py-4 rounded-2xl font-bold text-lg hover:bg-slate-100 hover:scale-[1.02] hover:shadow-xl transition-all">
+              <a 
+                href="https://drive.google.com/file/d/18eAOranoxPi6S3GsdtZe5fB_sFr1DQmK/view?usp=sharing"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center justify-center gap-3 bg-white text-slate-900 px-8 py-4 rounded-2xl font-bold text-lg hover:bg-slate-100 hover:scale-[1.02] hover:shadow-xl transition-all shadow-md"
+              >
                 <Smartphone className="w-6 h-6" />
-                Download App User
-              </button>
-              <button className="flex items-center justify-center gap-3 bg-purple-600/30 text-white border-2 border-purple-500/40 px-8 py-4 rounded-2xl font-bold text-lg hover:bg-purple-600/50 backdrop-blur-sm transition-all group shadow-md">
-                Gabung Mitra 
+                Demo App User
+              </a>
+              <a 
+                href="https://drive.google.com/file/d/19Ky7F3XcU5th-mffta-JAJCc_XImkCfZ/view?usp=sharing"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center justify-center gap-3 bg-purple-600/30 text-white border-2 border-purple-500/40 px-8 py-4 rounded-2xl font-bold text-lg hover:bg-purple-600/50 backdrop-blur-sm transition-all group shadow-md"
+              >
+                Demo App Driver
                 <ChevronRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-              </button>
+              </a>
+              <a 
+                href="https://drive.google.com/file/d/1kc93PfRLqFg795JB7BZXDmMB_lnFcVhx/view?usp=sharing"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center justify-center gap-3 bg-orange-600/40 text-white border-2 border-orange-400/50 px-8 py-4 rounded-2xl font-bold text-lg hover:bg-orange-600/60 backdrop-blur-sm transition-all group shadow-md"
+              >
+                Demo App Merchant
+              </a>
             </div>
             
             <div className="mt-12 flex items-center gap-6">
@@ -290,44 +308,73 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* 5. GABUNG MITRA */}
+      {/* 5. GABUNG MITRA & DEMO APP */}
       <section id="kemitraan" className="py-24 bg-slate-900 relative overflow-hidden">
         <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1555939594-58d7cb561ad1?q=80&w=2000&auto=format&fit=crop')] bg-cover bg-center opacity-10"></div>
         <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/80 to-slate-900/40"></div>
         
         <div className="max-w-7xl mx-auto px-6 relative z-10">
           <div className="text-center mb-16">
-            <h3 className="text-3xl md:text-5xl font-black text-white mb-6">Berkembang Bersama Kami</h3>
-            <p className="text-slate-300 max-w-2xl mx-auto text-lg">Tambah pundi-pundi penghasilan Anda dengan waktu yang fleksibel, atau kembangkan bisnis kuliner Anda bersama ratusan ribu pelanggan aktif.</p>
+            <h3 className="text-3xl md:text-5xl font-black text-white mb-6">Coba Versi Demo Sekarang</h3>
+            <p className="text-slate-300 max-w-2xl mx-auto text-lg">Download file APK untuk masing-masing aplikasi dan rasakan kemudahan menggunakan ekosistem OjekKu.</p>
           </div>
 
-          <div className="grid md:grid-cols-2 gap-8">
-            {/* Card Driver */}
-            <div className="bg-white/10 backdrop-blur-md rounded-3xl p-8 lg:p-10 border border-white/20 hover:bg-white/15 transition-colors">
-              <div className="w-16 h-16 bg-blue-500 rounded-2xl flex items-center justify-center mb-8">
-                <Bike className="w-8 h-8 text-white" />
+          <div className="grid md:grid-cols-3 gap-8">
+            {/* Card User Demo */}
+            <div className="bg-white/10 backdrop-blur-md rounded-3xl p-8 border border-white/20 hover:bg-white/15 transition-colors">
+              <div className="w-16 h-16 bg-purple-500 rounded-2xl flex items-center justify-center mb-8 shadow-lg shadow-purple-500/20">
+                <Smartphone className="w-8 h-8 text-white" />
               </div>
-              <h4 className="text-2xl font-bold text-white mb-4">Gabung Jadi Driver</h4>
+              <h4 className="text-2xl font-bold text-white mb-4">Aplikasi User</h4>
               <p className="text-slate-300 mb-8 leading-relaxed">
-                Jadilah Bos untuk diri sendiri. Atur waktu kerja Anda secara bebas dan dapatkan bonus menarik setiap harinya. Pendaftaran gratis dan proses cepat!
+                Pesan ojek, mobil, makanan, dan kirim barang dalam satu genggaman. Coba pengalaman memesan yang super mulus.
               </p>
-              <button className="flex items-center gap-2 text-white bg-blue-600 px-6 py-3 justify-center rounded-xl font-bold hover:bg-blue-700 w-full md:w-auto transition-colors">
-                Daftar Driver App <ChevronRight className="w-5 h-5"/>
-              </button>
+              <a 
+                href="https://drive.google.com/file/d/18eAOranoxPi6S3GsdtZe5fB_sFr1DQmK/view?usp=sharing"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 text-white bg-purple-600 px-6 py-3 justify-center rounded-xl font-bold hover:bg-purple-700 w-full transition-colors"
+              >
+                Download APK User <ChevronRight className="w-5 h-5"/>
+              </a>
             </div>
 
-            {/* Card Merchant */}
-            <div className="bg-white/10 backdrop-blur-md rounded-3xl p-8 lg:p-10 border border-white/20 hover:bg-white/15 transition-colors group">
-              <div className="w-16 h-16 bg-orange-500 rounded-2xl flex items-center justify-center mb-8">
+            {/* Card Driver Demo */}
+            <div className="bg-white/10 backdrop-blur-md rounded-3xl p-8 border border-white/20 hover:bg-white/15 transition-colors">
+              <div className="w-16 h-16 bg-blue-500 rounded-2xl flex items-center justify-center mb-8 shadow-lg shadow-blue-500/20">
+                <Bike className="w-8 h-8 text-white" />
+              </div>
+              <h4 className="text-2xl font-bold text-white mb-4">Aplikasi Driver</h4>
+              <p className="text-slate-300 mb-8 leading-relaxed">
+                Lihat bagaimana driver menerima orderan, navigasi, dan mengelola penghasilan mereka secara real-time.
+              </p>
+              <a 
+                href="https://drive.google.com/file/d/19Ky7F3XcU5th-mffta-JAJCc_XImkCfZ/view?usp=sharing"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 text-white bg-blue-600 px-6 py-3 justify-center rounded-xl font-bold hover:bg-blue-700 w-full transition-colors"
+              >
+                Download APK Driver <ChevronRight className="w-5 h-5"/>
+              </a>
+            </div>
+
+            {/* Card Merchant Demo */}
+            <div className="bg-white/10 backdrop-blur-md rounded-3xl p-8 border border-white/20 hover:bg-white/15 transition-colors group">
+              <div className="w-16 h-16 bg-orange-500 rounded-2xl flex items-center justify-center mb-8 shadow-lg shadow-orange-500/20">
                 <Utensils className="w-8 h-8 text-white" />
               </div>
-              <h4 className="text-2xl font-bold text-white mb-4">Gabung Jadi Merchant</h4>
+              <h4 className="text-2xl font-bold text-white mb-4">Aplikasi Merchant</h4>
               <p className="text-slate-300 mb-8 leading-relaxed">
-                Jangkau lebih banyak pelanggan untuk restoran atau toko Anda. Kami sediakan aplikasi Merchant khusus untuk mengatur pesanan dan menu dengan super gampang.
+                Kelola menu restoran, atur stok toko, dan pantau pesanan masuk dari pelanggan OjekKu Food.
               </p>
-              <button className="flex items-center gap-2 text-white bg-orange-600 px-6 py-3 justify-center rounded-xl font-bold hover:bg-orange-700 w-full md:w-auto transition-colors">
-                Daftar Merchant App <ChevronRight className="w-5 h-5"/>
-              </button>
+              <a 
+                href="https://drive.google.com/file/d/1kc93PfRLqFg795JB7BZXDmMB_lnFcVhx/view?usp=sharing"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 text-white bg-orange-600 px-6 py-3 justify-center rounded-xl font-bold hover:bg-orange-700 w-full transition-colors"
+              >
+                Download APK Merchant <ChevronRight className="w-5 h-5"/>
+              </a>
             </div>
           </div>
         </div>
