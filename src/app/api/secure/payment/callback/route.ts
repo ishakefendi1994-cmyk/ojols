@@ -37,7 +37,7 @@ export async function POST(request: Request) {
         const apiKey = process.env.DUITKU_API_KEY || 'f62562ba13abc40d26104da10abbc41a';
         const expectedSignature = crypto
             .createHash('md5')
-            .update(`${merchantCode}${amount}${apiKey}${merchantOrderId}`)
+            .update(`${merchantCode}${amount}${merchantOrderId}${apiKey}`)
             .digest('hex');
 
         if (signature !== expectedSignature) {
