@@ -2,7 +2,11 @@ import { getSupabaseAdmin } from '@/lib/supabase';
 import { NextResponse } from 'next/server';
 import * as crypto from 'crypto';
 
-export const dynamic = 'force-dynamic';
+export async function GET() {
+    return new Response("OK - PAYMENT CALLBACK API READY", {
+        headers: { 'Content-Type': 'text/plain' }
+    });
+}
 
 
 
