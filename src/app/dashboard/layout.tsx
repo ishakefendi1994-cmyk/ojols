@@ -29,7 +29,8 @@ import {
     Smartphone,
     MapPin,
     Bus,
-    MessageSquare
+    MessageSquare,
+    Gift
 } from 'lucide-react';
 
 export default function DashboardLayout({
@@ -147,6 +148,7 @@ export default function DashboardLayout({
                 { name: 'Promo Banners', href: '/dashboard/banners', icon: ImageIcon },
                 { name: 'Promo & Berita', href: '/dashboard/news', icon: Newspaper },
                 { name: 'Manajemen Lisensi', href: '/dashboard/licensing', icon: Key },
+                { name: 'Manajemen Referral', href: '/dashboard/referral', icon: Gift },
             ]
         }
     ];
