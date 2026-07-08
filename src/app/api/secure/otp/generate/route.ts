@@ -35,7 +35,7 @@ export async function POST(request: Request) {
         if (dbError) throw dbError;
 
         // 3. Send via WhatsApp Service
-        const targetUrl = "https://wa-server-production-f94e.up.railway.app";
+        const targetUrl = "https://wa-server-production-e2d5.up.railway.app";
         const authKey = "standard_secret_key";
 
         const waResponse = await fetch(`${targetUrl}/send-message`, {

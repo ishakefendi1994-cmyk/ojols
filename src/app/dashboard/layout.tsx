@@ -149,6 +149,7 @@ export default function DashboardLayout({
                 { name: 'Promo & Berita', href: '/dashboard/news', icon: Newspaper },
                 { name: 'Manajemen Lisensi', href: '/dashboard/licensing', icon: Key },
                 { name: 'Manajemen Referral', href: '/dashboard/referral', icon: Gift },
+                { name: 'Kode Promo', href: '/dashboard/promos', icon: Tags },
             ]
         }
     ];
